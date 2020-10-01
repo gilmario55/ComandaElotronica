@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_comanda"
+        android:orderInCategory="100"
+        android:title="Comanda"
+        />
+    <item
+        android:id="@+id/action_home"
+        android:orderInCategory="100"
+        android:title="Home"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_home_branco"
+        />
+    <item
+        android:id="@+id/action_cardapio"
+        android:orderInCategory="100"
+        android:title="Cardapio"
+        app:showAsAction="always"
+        android:icon="@drawable/ic__menu_cardapio_branco"
+        />
+    <item
+        android:id="@+id/action_sair"
+        android:orderInCategory="100"
+        android:title="@string/menu_exit"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_menu_exit"
+        />
+
+
+</menu>

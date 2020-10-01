@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_clientes"
+            android:icon="@drawable/ic_menu_clientes"
+            android:title="@string/menu_clientes" />
+        <item
+            android:id="@+id/nav_cardapio"
+            android:icon="@drawable/ic_menu_cardapio"
+            android:title="@string/menu_cardapio" />
+        <item
+            android:id="@+id/nav_mesas"
+            android:icon="@drawable/ic_menu_mesas"
+            android:title="@string/menu_mesas" />
+
+
+    </group>
+
+</menu>

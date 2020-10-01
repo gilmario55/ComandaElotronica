@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "700725297684",
+    "firebase_url": "https://comandaeletronica-3eb27.firebaseio.com",
+    "project_id": "comandaeletronica-3eb27",
+    "storage_bucket": "comandaeletronica-3eb27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700725297684:android:3af8eb169706769cb51d01",
+        "android_client_info": {
+          "package_name": "com.example.comandaelotrnica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "700725297684-n4l9g51h506vsaomcehhrt7i8cpnmj5d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.comandaelotrnica",
+            "certificate_hash": "717cc5e942e8737519cada590e62c4aae53834db"
+          }
+        },
+        {
+          "client_id": "700725297684-rrdklru6g653j348136h32345460e8c5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXgMcUOEYt19R4SO1k4nlhYucg8TUf4u4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700725297684-rrdklru6g653j348136h32345460e8c5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
