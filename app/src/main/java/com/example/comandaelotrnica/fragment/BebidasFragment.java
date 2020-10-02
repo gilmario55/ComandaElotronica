@@ -44,7 +44,6 @@ public class BebidasFragment extends Fragment {
     private List<Cardapio> list = new ArrayList<>();
     Cardapio cardapio;
     private DatabaseReference cardapioRef = ConfiguracaoFirebase.getFirebaseDatabase();
-    private FirebaseAuth auth = ConfiguracaoFirebase.getFirebaseAutenticacao();
     private StorageReference storageReference = ConfiguracaoFirebase.getFirebaseStorage();
     private ValueEventListener valueEventListenerCardapio;
 
@@ -112,8 +111,6 @@ public class BebidasFragment extends Fragment {
     }
 
     public void recuperaCardapio(){
-        String emaiUser = auth.getCurrentUser().getEmail();
-        String idUser = Base64Custom.codificarBase64(emaiUser);
         Query query = cardapioRef.child("Bebida")
                 .orderByChild("valorItem");
         valueEventListenerCardapio = query.addValueEventListener(new ValueEventListener() {

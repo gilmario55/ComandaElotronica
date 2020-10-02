@@ -14,6 +14,7 @@ import com.example.comandaelotrnica.R;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
 import com.example.comandaelotrnica.helper.Base64Custom;
 import com.example.comandaelotrnica.helper.DateUtil;
+import com.example.comandaelotrnica.helper.ToastConfig;
 import com.example.comandaelotrnica.helper.UsuarioFirebase;
 import com.example.comandaelotrnica.model.Usuario;
 import com.example.comandaelotrnica.service.UsuarioService;
@@ -65,19 +66,19 @@ public class CadastrarUsuarioActivity extends AppCompatActivity {
                             cadastrarUsuario();
 
                         }else {
-                            Toast.makeText(CadastrarUsuarioActivity.this,
-                                    "Preencha o campo senha",
-                                    Toast.LENGTH_SHORT).show();
+                            ToastConfig.showCustomAlert(CadastrarUsuarioActivity.this,
+                                    getLayoutInflater(),
+                                    "Prencha o campo senha.");
                         }
                     }else{
-                        Toast.makeText(CadastrarUsuarioActivity.this,
-                                "Preencha o campo email",
-                                Toast.LENGTH_SHORT).show();
+                        ToastConfig.showCustomAlert(CadastrarUsuarioActivity.this,
+                                getLayoutInflater(),
+                                "Preencha o campo email.");
                     }
                 }else{
-                    Toast.makeText(CadastrarUsuarioActivity.this,
-                            "Preencha o campo nome",
-                            Toast.LENGTH_SHORT).show();
+                    ToastConfig.showCustomAlert(CadastrarUsuarioActivity.this,
+                            getLayoutInflater(),
+                            "Preencha o campo nome.");
                 }
             }
         });
@@ -91,9 +92,8 @@ public class CadastrarUsuarioActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(CadastrarUsuarioActivity.this,
-                                    "Sucesso ao cadastrar usuário.",
-                                    Toast.LENGTH_LONG).show();
+                            String texto = "Sucesso ao cadastrar usuário.";
+                            ToastConfig.showCustomAlert(CadastrarUsuarioActivity.this,getLayoutInflater(),texto);
                             UsuarioFirebase.atualizarNomeUsuario(usuario.getNome());
                             finish();
                             try {
@@ -118,9 +118,9 @@ public class CadastrarUsuarioActivity extends AppCompatActivity {
                                 excecao ="Erro ao cadastrar usuário" + e.getMessage();
                                 e.printStackTrace();
                             }
-                            Toast.makeText(CadastrarUsuarioActivity.this,
-                                    excecao,
-                                    Toast.LENGTH_SHORT).show();
+                            ToastConfig.showCustomAlert(CadastrarUsuarioActivity.this,
+                                    getLayoutInflater(),
+                                    excecao);
                         }
                     }
                 });

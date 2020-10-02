@@ -18,17 +18,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ComandaActivity"
-            android:parentActivityName=".activity.ClienteActivity"/>
-        <activity android:name=".activity.CardapioClienteActivity"
-            android:parentActivityName=".activity.ClienteActivity"/>
+        <activity
+            android:name=".activity.ComandaActivity"
+            android:parentActivityName=".activity.ClienteActivity" />
+        <activity
+            android:name=".activity.CardapioClienteActivity"
+            android:parentActivityName=".activity.ClienteActivity" />
         <activity
             android:name=".activity.ConfiguracoesActivity"
             android:parentActivityName=".activity.AdminActivity" />
         <activity android:name=".activity.EditarCaradpioActivity" />
-        <activity android:name=".activity.CardapioActivity"
+        <activity
+            android:name=".activity.CardapioActivity"
             android:parentActivityName=".activity.AdminActivity"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.CadastrarUsuarioActivity" />
         <activity
             android:name=".activity.ClienteActivity"
