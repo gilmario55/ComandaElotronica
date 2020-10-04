@@ -15,8 +15,17 @@ public class Usuario implements Serializable {
     private String tipoUsuario;
     private String dataCadstro;
     private String foto;
+    private String status;
 
     public Usuario() {
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDataCadstro() {
