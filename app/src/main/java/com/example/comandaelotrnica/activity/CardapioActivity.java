@@ -251,7 +251,7 @@ public class CardapioActivity extends AppCompatActivity {
             item.setDescricao(descricacao);
             item.setPreco(valor);
             item.setFoto(url.toString());
-            cardapioService.salvar(item, key, firebase);
+            cardapioService.salvar(item, key, firebase, CardapioActivity.this, getLayoutInflater(),storageReference);
             finish();
         }
 

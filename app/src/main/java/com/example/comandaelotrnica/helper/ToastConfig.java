@@ -11,7 +11,7 @@ import com.example.comandaelotrnica.R;
 
 public class ToastConfig {
 
-    public static void showCustomAlert(Context context,LayoutInflater inflater, String texto)
+    public static void showCustomAlert(Context context, LayoutInflater inflater, String texto)
     {
         // Call toast.xml file for toast layout
         View view = inflater.inflate(R.layout.taost, null);
@@ -21,8 +21,8 @@ public class ToastConfig {
 
         // Set layout to toast
         toast.setView(view);
-        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL,
-                0, 0);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM,
+                10, 10);
         toast.setDuration(Toast.LENGTH_LONG);
         toast.show();
     }

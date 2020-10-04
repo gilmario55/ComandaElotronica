@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.StorageReference;
 
 public class UsuarioFirebase {
 
@@ -54,6 +55,29 @@ public class UsuarioFirebase {
     }
 
     public static boolean atualizarFotoUsuario(Uri url){
+
+        try{
+            FirebaseUser user = getUsuarioAtual();
+            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
+                    .setPhotoUri(url).build();
+
+            user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(!task.isSuccessful()){
+                        Log.d("perfil","Erro ao atualizar foto de perfil");
+                    }
+                }
+            });
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public static boolean atualizarFoto(Uri url, StorageReference reference){
 
         try{
             FirebaseUser user = getUsuarioAtual();

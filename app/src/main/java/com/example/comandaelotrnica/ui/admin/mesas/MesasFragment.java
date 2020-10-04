@@ -126,8 +126,9 @@ public class MesasFragment extends Fragment {
                     adapterMesa.notifyDataSetChanged();
                 }else {
                     Mesa mesa = list.get(viewHolder.getAdapterPosition());
+                    int position = viewHolder.getAdapterPosition();
 
-                    mesaService.excluirMesa(mesa, referenceMesa, adapterMesa, getActivity());
+                    mesaService.excluirMesa(mesa, referenceMesa, adapterMesa, getActivity(), position);
                 }
             }
         };

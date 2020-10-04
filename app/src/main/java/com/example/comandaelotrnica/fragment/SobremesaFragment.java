@@ -23,6 +23,7 @@ import com.example.comandaelotrnica.adapter.AdapterCardapio;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
 import com.example.comandaelotrnica.helper.Base64Custom;
 import com.example.comandaelotrnica.model.Cardapio;
+import com.example.comandaelotrnica.service.CardapioService;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,7 +45,7 @@ public class SobremesaFragment extends Fragment {
     private RecyclerView recyclerView;
     private AdapterCardapio adapterCardapio;
     private List<Cardapio> list = new ArrayList<>();
-    private Cardapio cardapio;
+    private CardapioService cardapioService = new CardapioService();
     private DatabaseReference cardapioRef = ConfiguracaoFirebase.getFirebaseDatabase();
     private FirebaseAuth auth = ConfiguracaoFirebase.getFirebaseAutenticacao();
     StorageReference storageReference = ConfiguracaoFirebase.getFirebaseStorage();
@@ -106,8 +107,10 @@ public class SobremesaFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-                excluirCardapio(viewHolder);
+                int position = viewHolder.getAdapterPosition();
+                Cardapio cardapio = list.get(position);
+                cardapioService.excluirItem(cardapio,cardapioRef,adapterCardapio,
+                        getActivity(),storageReference,position,getLayoutInflater());
 
             }
         };
@@ -138,57 +141,6 @@ public class SobremesaFragment extends Fragment {
 
             }
         });
-    }
-
-    public void excluirCardapio(final RecyclerView.ViewHolder viewHolder){
-
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-
-        //Configurar Dialog
-
-        alertDialog.setTitle("Excluir prato do cardápio.");
-        alertDialog.setMessage("Vocẽ tem certeza que deseja realmente excluir esse prato do seu cardápio?");
-        alertDialog.setCancelable(false);
-        alertDialog.setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                int position = viewHolder.getAdapterPosition();
-                cardapio = list.get(position);
-
-                StorageReference imagem = storageReference
-                        .child("imagens")
-                        .child("cardapio")
-                        .child(cardapio.getKey())
-                        .child("imagemCardapio.jpeg");
-                imagem.delete().addOnFailureListener(getActivity(), new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getActivity(),
-                                "Erro ao deletar o arquivo",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-                cardapioRef = cardapioRef
-                        .child(cardapio.getCategoria());
-                cardapioRef.child(cardapio.getKey()).removeValue();
-                adapterCardapio.notifyItemRemoved(position);
-
-            }
-        });
-
-        alertDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getActivity(),
-                        "Exclusão cancelada",
-                        Toast.LENGTH_SHORT).show();
-                adapterCardapio.notifyDataSetChanged();
-            }
-        });
-        AlertDialog alert = alertDialog.create();
-        alert.show();
-
     }
 
 }

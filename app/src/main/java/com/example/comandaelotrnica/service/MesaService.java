@@ -20,7 +20,8 @@ public class MesaService {
                 .setValue(mesa);
     }
 
-    public void excluirMesa(final Mesa mesa, final DatabaseReference reference, final AdapterMesa adapterMesa, final Context context){
+    public void excluirMesa(final Mesa mesa, final DatabaseReference reference,
+                            final AdapterMesa adapterMesa, final Context context, final int position){
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
         alertDialog.setTitle("Excluir Mesa.");
@@ -30,7 +31,7 @@ public class MesaService {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 reference.child(mesa.getKey()).removeValue();
-                adapterMesa.notifyDataSetChanged();
+                adapterMesa.notifyItemRemoved(position);
             }
         });
         alertDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
