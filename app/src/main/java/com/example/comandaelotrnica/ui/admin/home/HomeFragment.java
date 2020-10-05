@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -57,12 +59,17 @@ public class HomeFragment extends Fragment {
 
     public void recupearUsuario(final MyCallback myCallback){
         String emailUser = auth.getCurrentUser().getEmail();
-        String idUser = Base64Custom.codificarBase64(emailUser);
+        final String idUser = Base64Custom.codificarBase64(emailUser);
         Query query = usuarioRef.child("usuarios").child(idUser);
         listener = query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Usuario usuario = dataSnapshot.getValue(Usuario.class);
+                if(dataSnapshot.getChildren() != null){
+                    Usuario usuario = dataSnapshot.getValue(Usuario.class);
+                    HashMap<String,Object> value = new HashMap<>();
+                    value.put("status","online");
+                    usuarioRef.child("usuarios").child(idUser).updateChildren(value);
+                }
                 myCallback.onCallback(usuario);
             }
 

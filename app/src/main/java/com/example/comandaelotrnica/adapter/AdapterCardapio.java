@@ -67,7 +67,7 @@ public class AdapterCardapio
             if(cardapio.getFoto() != null){
                 Uri uri = Uri.parse(cardapio.getFoto());
                 Glide.with(context).load(uri).into(holder.imageCardapio);
-            }
+            }   
     }
 
     @Override

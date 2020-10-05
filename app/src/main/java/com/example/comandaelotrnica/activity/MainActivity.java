@@ -146,7 +146,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
-                abrirTelaPrincipal(usuario.getTipoUsuario());
+                if(usuario.getTipoUsuario() != null){
+                    abrirTelaPrincipal(usuario.getTipoUsuario());
+                }
             }
 
             @Override

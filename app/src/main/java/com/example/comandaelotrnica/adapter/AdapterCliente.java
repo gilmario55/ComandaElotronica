@@ -1,6 +1,7 @@
 package com.example.comandaelotrnica.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,9 @@ public class AdapterCliente extends RecyclerView.Adapter<AdapterCliente.MyViewHo
         holder.nome.setText("Nome: " + user.getNome());
         holder.email.setText("E-mail: " + user.getEmail());
         holder.dataCad.setText("Data de cadastro: " + user.getDataCadstro());
+        holder.status.setText(user.getStatus());
+        holder.status.setTextColor(Color.GREEN);
+
         if (user.getFoto() != null){
             Uri uri = Uri.parse(user.getFoto());
             Glide.with(context).load(uri).into(holder.imagePerfil);
@@ -73,6 +77,7 @@ public class AdapterCliente extends RecyclerView.Adapter<AdapterCliente.MyViewHo
             email = itemView.findViewById(R.id.textViewEmailCliente);
             imagePerfil = itemView.findViewById(R.id.circleImageCliente);
             dataCad = itemView.findViewById(R.id.textViewDataCliente);
+            status = itemView.findViewById(R.id.textViewStatusCliente);
 
         }
     }

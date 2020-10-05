@@ -17,8 +17,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.comandaelotrnica.helper.UsuarioFirebase;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -27,6 +29,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.widget.TextView;
+
+import java.util.HashMap;
 
 public class AdminActivity extends AppCompatActivity {
 
@@ -91,6 +95,11 @@ public class AdminActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_sair:
                 autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+                DatabaseReference reference = ConfiguracaoFirebase.getFirebaseDatabase();
+                String idUser = UsuarioFirebase.getIdentificaçãoUsuario();
+                HashMap<String,Object> value = new HashMap<>();
+                value.put("status","offline");
+                reference.child("usuarios").child(idUser).updateChildren(value);
                 autenticacao.signOut();
                 finish();
                 break;
