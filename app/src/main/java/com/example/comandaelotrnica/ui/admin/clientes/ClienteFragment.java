@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.comandaelotrnica.R;
@@ -36,7 +37,7 @@ public class ClienteFragment extends Fragment {
 
     private TextView textViewNome, textViewEmail, textViewStatus;
     private CircleImageView circleImageViewEditar, circleImageViewExcluir;
-    private Button buttonVerComanda;
+    private ImageView imageViewComanda;
     private RecyclerView recyclerView;
     private AdapterCliente adapterCliente;
     private List<Usuario> list = new ArrayList<>();
@@ -58,7 +59,7 @@ public class ClienteFragment extends Fragment {
         textViewNome = view.findViewById(R.id.textViewNomeCliente);
         textViewEmail = view.findViewById(R.id.textViewEmailCliente);
         textViewStatus = view.findViewById(R.id.textViewStatusCliente);
-        buttonVerComanda = view.findViewById(R.id.buttonVerComanda);
+        imageViewComanda = view.findViewById(R.id.imageViewComanda);
         circleImageViewEditar = view.findViewById(R.id.circleImageEditarCliente);
         circleImageViewExcluir = view.findViewById(R.id.circleImageExcluirCliente);
         recyclerView = view.findViewById(R.id.recyclerCliente);

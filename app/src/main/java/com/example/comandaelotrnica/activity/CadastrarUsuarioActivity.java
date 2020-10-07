@@ -100,6 +100,7 @@ public class CadastrarUsuarioActivity extends AppCompatActivity {
                                 String idUsuario = Base64Custom.codificarBase64(usuario.getEmail());
                                 usuario.setIdUsuario(idUsuario);
                                 usuario.setStatus("offline");
+                                usuario.setPerfil("ativo");
                                 usuarioService = new UsuarioService();
                                 usuarioService.Salvar(usuario);
                             }catch (Exception e){

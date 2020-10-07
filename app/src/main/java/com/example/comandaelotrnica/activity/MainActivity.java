@@ -28,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
     private TextInputEditText editEmail, editSenha;
     private Button buttonEntrar;
@@ -131,6 +133,13 @@ public class MainActivity extends AppCompatActivity {
     public void abrirTelaPrincipal(String texto){
 
         if (texto.equals("admin")) {
+           if(autenticacao.getCurrentUser() != null){
+               HashMap<String,Object> value = new HashMap<>();
+               value.put("status","online");
+               DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
+               String idUser = UsuarioFirebase.getIdentificaçãoUsuario();
+               usuarioRef.child("usuarios").child(idUser).updateChildren(value);
+           }
             startActivity(new Intent(this, AdminActivity.class));
             finish();
         }else{

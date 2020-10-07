@@ -16,8 +16,17 @@ public class Usuario implements Serializable {
     private String dataCadstro;
     private String foto;
     private String status;
+    private String perfil;
 
     public Usuario() {
+    }
+
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
     }
 
     public String getStatus() {

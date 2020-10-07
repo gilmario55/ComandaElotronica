@@ -58,18 +58,18 @@ public class HomeFragment extends Fragment {
 
 
     public void recupearUsuario(final MyCallback myCallback){
-        String emailUser = auth.getCurrentUser().getEmail();
+        String emailUser = "";
+        if (auth.getCurrentUser() != null){
+             emailUser = auth.getCurrentUser().getEmail();
+        }else {
+            getActivity().onBackPressed();
+        }
         final String idUser = Base64Custom.codificarBase64(emailUser);
         Query query = usuarioRef.child("usuarios").child(idUser);
         listener = query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildren() != null){
                     Usuario usuario = dataSnapshot.getValue(Usuario.class);
-                    HashMap<String,Object> value = new HashMap<>();
-                    value.put("status","online");
-                    usuarioRef.child("usuarios").child(idUser).updateChildren(value);
-                }
                 myCallback.onCallback(usuario);
             }
 
