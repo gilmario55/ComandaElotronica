@@ -23,7 +23,7 @@ public class ToastConfig {
         toast.setView(view);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM,
                 10, 10);
-        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setDuration(Toast.LENGTH_SHORT);
         toast.show();
     }
 }

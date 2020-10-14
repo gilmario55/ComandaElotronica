@@ -58,6 +58,7 @@ public class UsuarioFirebase {
 
         try{
             FirebaseUser user = getUsuarioAtual();
+            
             UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
                     .setPhotoUri(url).build();
 

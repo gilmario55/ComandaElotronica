@@ -52,8 +52,8 @@ public class RefeicaoClienteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_refeicao_cliente, container, false);
-        recyclerView = view.findViewById(R.id.recyclerViewRefCliente);
+        View view = inflater.inflate(R.layout.fragment_list_cardapio, container, false);
+        recyclerView = view.findViewById(R.id.recyclerListCardapio);
         cardapioRef = ConfiguracaoFirebase.getFirebaseDatabase().child("cardapio");
 
         // Configurar adpater
@@ -84,18 +84,16 @@ public class RefeicaoClienteFragment extends Fragment {
 
     public void recuperaCardapio(){
         String emaiUser = auth.getCurrentUser().getEmail();
-        final String idUser = Base64Custom.codificarBase64(emaiUser);
-        Query query = cardapioRef
-                .child("alimento").orderByChild("valorItem");
+        String idUser = Base64Custom.codificarBase64(emaiUser);
+        Query query = cardapioRef.child("Prato")
+                .orderByChild("valorItem");
         valueEventListenerCardapio = query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 list.clear();
-                System.out.println("tamanho: " + idUser);
                 for (DataSnapshot dados : dataSnapshot.getChildren()){
                     Cardapio cardapio = dados.getValue(Cardapio.class);
                     cardapio.setKey(dados.getKey());
-
                     cardapio.setCategoria(dataSnapshot.getKey());
                     list.add(cardapio);
                 }
@@ -104,7 +102,7 @@ public class RefeicaoClienteFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Erro: " + databaseError);
+
             }
         });
     }

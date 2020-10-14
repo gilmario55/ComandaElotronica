@@ -4,14 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.SobremesaFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".fragment.BebidasFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewSobremesa"
+        android:id="@+id/recyclerListCardapio"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp" />
-
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"/>
 </LinearLayout>

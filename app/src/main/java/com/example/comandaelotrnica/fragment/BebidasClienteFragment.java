@@ -46,9 +46,9 @@ public class BebidasClienteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_bebidas_cliente, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_cardapio, container, false);
 
-        recyclerView = view.findViewById(R.id.recyclerViewBebidaCliente);
+        recyclerView = view.findViewById(R.id.recyclerListCardapio);
 
         cardapioRef = ConfiguracaoFirebase.getFirebaseDatabase().child("cardapio");
 
@@ -77,8 +77,7 @@ public class BebidasClienteFragment extends Fragment {
     }
 
     public void recuperaCardapio(){
-
-        Query query = cardapioRef.child("bebida")
+        Query query = cardapioRef.child("Bebida")
                 .orderByChild("valorItem");
         valueEventListenerCardapio = query.addValueEventListener(new ValueEventListener() {
             @Override
