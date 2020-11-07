@@ -2,7 +2,6 @@ package com.example.comandaelotrnica.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,55 +13,49 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ImageDecoder;
-import android.graphics.PorterDuff;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.comandaelotrnica.R;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
+import com.example.comandaelotrnica.helper.UsuarioFirebase;
 import com.example.comandaelotrnica.helper.Base64Custom;
 import com.example.comandaelotrnica.helper.DateUtil;
 import com.example.comandaelotrnica.helper.Permissao;
-import com.example.comandaelotrnica.model.Cardapio;
-import com.example.comandaelotrnica.model.Usuario;
+import com.example.comandaelotrnica.model.ItemCardapio;
+import com.example.comandaelotrnica.model.CategoriaCardapio;
 import com.example.comandaelotrnica.service.CardapioService;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Exclude;
-import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CardapioActivity extends AppCompatActivity {
 
-    private TextView textViewtituloCategoriaBebida;
     private EditText nomeItem, precoItem,editTextDescricao;
     private ImageButton imageButtonGalery, imageButtonCamera;
     private ImageView imageViewCardapio;
-    private Spinner spinnerCategoria, spinnerBebida;
-    private String categoria [] = new String[]{"Prato", "Bebida", "Sobremesa"};
-    private String tipoBebida [] = new String[]{"Alcolica", "Suco", "Refrigerante", "Quente"};
-    private String categoriaEscolhida, tipoBebidaEscolhida, descricacao;
+    private Spinner spinnerCategoria;
+    private String categoriaEscolhida, descricacao;
     private String[] permissoesNescessarias = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
@@ -70,9 +63,12 @@ public class CardapioActivity extends AppCompatActivity {
     private static final int CAMERA = 100, GALERIA = 200;
     private FirebaseAuth auth;
     private StorageReference storageReference = ConfiguracaoFirebase.getFirebaseStorage();
-    private DatabaseReference firebase = ConfiguracaoFirebase.getFirebaseDatabase().child("cardapio");
+    private DatabaseReference firebase = ConfiguracaoFirebase.getFirebaseDatabase();
+    private ValueEventListener listener;
     private String key = firebase.push().getKey();
     private CardapioService cardapioService = new CardapioService();
+    private List<String> listCategorias = new ArrayList<>();
+    private ArrayAdapter<String> adapterCategoria;
     private Uri url;
 
 
@@ -90,8 +86,6 @@ public class CardapioActivity extends AppCompatActivity {
         imageViewCardapio = findViewById(R.id.imageViewAddCardapio);
         imageButtonGalery.setBackgroundColor(Color.TRANSPARENT);
         imageButtonCamera.setBackgroundColor(Color.TRANSPARENT);
-        spinnerBebida = findViewById(R.id.spinnerBebida);
-        textViewtituloCategoriaBebida = findViewById(R.id.textViewCatBebida);
 
         // Setando a Toolbar
         Toolbar toolbar = findViewById(R.id.toolbarPersonalizada);
@@ -103,39 +97,21 @@ public class CardapioActivity extends AppCompatActivity {
         Permissao.validarPermissoes(permissoesNescessarias,this,2);
 
         // ArrayAdapter para categoria
-        ArrayAdapter<String> adapterCategoria =
-                new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,categoria);
+         adapterCategoria =
+                new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,listCategorias);
         adapterCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategoria.setAdapter(adapterCategoria);
-        // ArrayAdapter para tipos de bebidas
-        ArrayAdapter<String> adapterBebida =
-                new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,tipoBebida);
-        adapterBebida.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerBebida.setAdapter(adapterBebida);
 
-        spinnerCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (categoria[position] != "Bebida"){
-                    spinnerBebida.setVisibility(View.GONE);
-                    textViewtituloCategoriaBebida.setVisibility(View.GONE);
-                }
-                else {
-                    spinnerBebida.setVisibility(View.VISIBLE);
-                    textViewtituloCategoriaBebida.setVisibility(View.VISIBLE);
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
+        recuperarCategoria();
         botoes();
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebase.removeEventListener(listener);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -236,22 +212,19 @@ public class CardapioActivity extends AppCompatActivity {
 
     public void salvarCardapio(View view){
         if (validarCamposCardapio()){
-            if(categoriaEscolhida == "Bebida")
-                tipoBebidaEscolhida = (String) spinnerBebida.getSelectedItem();
-            Cardapio item = new Cardapio();
+            ItemCardapio item = new ItemCardapio();
             String dataAtual = DateUtil.dataAtual();
             double valor = Double.parseDouble( precoItem.getText().toString());
             auth = ConfiguracaoFirebase.getFirebaseAutenticacao();
-            String idUsuario = Base64Custom.codificarBase64(auth.getCurrentUser().getEmail());
+            String idEmpresa = Base64Custom.codificarBase64(auth.getCurrentUser().getEmail());
             item.setDataCastrato(dataAtual);
-            item.setIdUsuario(idUsuario);
+            item.setIdEmpresa(idEmpresa);
             item.setNome(nomeItem.getText().toString());
             item.setCategoria(categoriaEscolhida);
-            item.setTipoBebida(tipoBebidaEscolhida);
             item.setDescricao(descricacao);
             item.setPreco(valor);
             item.setFoto(url.toString());
-            cardapioService.salvar(item, key, firebase, CardapioActivity.this, getLayoutInflater(),storageReference);
+            cardapioService.salvar(item, key, CardapioActivity.this, getLayoutInflater(),storageReference);
             finish();
         }
 
@@ -325,6 +298,34 @@ public class CardapioActivity extends AppCompatActivity {
                 if (intent.resolveActivity(getPackageManager()) != null){
                     startActivityForResult(intent,GALERIA);
                 }
+            }
+        });
+
+    }
+
+    public void recuperarCategoria(){
+
+        String idEmpresa = UsuarioFirebase.getIdentificaçãoUsuario();
+
+        firebase = firebase
+                .child("categoriaCardapio")
+                .child(idEmpresa);
+        listener = firebase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listCategorias.clear();
+                for (DataSnapshot data : snapshot.getChildren()){
+                    CategoriaCardapio categoria = data.getValue(CategoriaCardapio.class);
+                    listCategorias.add(categoria.getNome());
+                }
+
+                adapterCategoria.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 

@@ -42,9 +42,9 @@ implements View.OnClickListener {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         Comanda comanda = list.get(position);
-        holder.nome.setText(comanda.getNomeItem());
-        holder.quantidade.setText("Qunatidade: " + comanda.getQuantidade());
-        holder.preco.setText("Preço a pagar: " + String.valueOf(comanda.getPreco()));
+        //holder.nome.setText(comanda.getNomeItem());
+        //holder.quantidade.setText("Qunatidade: " + comanda.getQuantidade());
+        //holder.preco.setText("Preço a pagar: " + String.valueOf(comanda.getPreco()));
         holder.status.setText(comanda.getStatus());
 
     }

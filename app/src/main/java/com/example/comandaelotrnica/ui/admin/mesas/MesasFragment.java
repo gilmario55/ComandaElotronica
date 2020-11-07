@@ -156,7 +156,7 @@ public class MesasFragment extends Fragment {
                 list.clear();
                 for (DataSnapshot dados : snapshot.getChildren()){
                     Mesa mesa = dados.getValue(Mesa.class);
-                    mesa.setKey(dados.getKey());
+                    mesa.setIdMesa(dados.getKey());
                     list.add(mesa);
                 }
                 adapterMesa.notifyDataSetChanged();

@@ -20,6 +20,10 @@
             android:id="@+id/nav_mesas"
             android:icon="@drawable/ic_menu_mesas"
             android:title="@string/menu_mesas" />
+        <item
+            android:id="@+id/nav_categoria"
+            android:icon="@drawable/ic_categoria_cardapio_24"
+            android:title="@string/menu_categoria"/>
 
 
     </group>

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,15 +27,12 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ClienteFragment extends Fragment {
 
     private TextView textViewNome, textViewEmail, textViewStatus;
-    private CircleImageView circleImageViewEditar, circleImageViewExcluir;
     private ImageView imageViewComanda;
     private RecyclerView recyclerView;
     private AdapterCliente adapterCliente;
@@ -60,8 +56,6 @@ public class ClienteFragment extends Fragment {
         textViewEmail = view.findViewById(R.id.textViewEmailCliente);
         textViewStatus = view.findViewById(R.id.textViewStatusCliente);
         imageViewComanda = view.findViewById(R.id.imageViewComanda);
-        circleImageViewEditar = view.findViewById(R.id.circleImageEditarCliente);
-        circleImageViewExcluir = view.findViewById(R.id.circleImageExcluirCliente);
         recyclerView = view.findViewById(R.id.recyclerCliente);
 
         // config adapter

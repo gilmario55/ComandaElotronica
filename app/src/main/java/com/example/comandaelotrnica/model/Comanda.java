@@ -1,82 +1,87 @@
 package com.example.comandaelotrnica.model;
 
+import com.google.firebase.database.DatabaseReference;
+
+import java.util.List;
+
+import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
+
 public class Comanda {
 
-    private int id;
-    private int idUsuario;
-    private int idItemPedido;
-    private int idMesa;
-    private int quantidade;
-    private double preco;
-    private String nomeItem;
-    private String dataPedido;
-    private String status;
+   private String idUsuario;
+   private String idEmpresa;
+   private String idMesa;
+   private String idComanda;
+   private String nomeUsuario;
+   private List<ItensComanda> itens;
+   private double total;
+   private String status = "abreta";
+   private String metodoPagamento;
+   private String obs;
 
     public Comanda() {
     }
 
-    public int getId() {
-        return id;
+    public Comanda(String idUsuario, String idEmpresa, String idMesa) {
+        this.idUsuario = idUsuario;
+        this.idEmpresa = idEmpresa;
+        this.idMesa = idMesa;
+
+        DatabaseReference databaseReference = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference reference = databaseReference
+                .child("comanda")
+                .child(getIdEmpresa())
+                .child(getIdUsuario())
+                .child(getIdMesa());
+        setIdComanda(reference.push().getKey());
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public int getIdItemPedido() {
-        return idItemPedido;
+    public String getIdEmpresa() {
+        return idEmpresa;
     }
 
-    public void setIdItemPedido(int idItemPedido) {
-        this.idItemPedido = idItemPedido;
+    public void setIdEmpresa(String idEmpresa) {
+        this.idEmpresa = idEmpresa;
     }
 
-    public int getIdMesa() {
-        return idMesa;
+    public String getIdComanda() {
+        return idComanda;
     }
 
-    public void setIdMesa(int idMesa) {
-        this.idMesa = idMesa;
+    public void setIdComanda(String idComanda) {
+        this.idComanda = idComanda;
     }
 
-    public int getQuantidade() {
-        return quantidade;
+    public String getNomeUsuario() {
+        return nomeUsuario;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
     }
 
-    public double getPreco() {
-        return preco;
+    public List<ItensComanda> getItens() {
+        return itens;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
+    public void setItens(List<ItensComanda> itens) {
+        this.itens = itens;
     }
 
-    public String getNomeItem() {
-        return nomeItem;
+    public double getTotal() {
+        return total;
     }
 
-    public void setNomeItem(String nomeItem) {
-        this.nomeItem = nomeItem;
-    }
-
-    public String getDataPedido() {
-        return dataPedido;
-    }
-
-    public void setDataPedido(String dataPedido) {
-        this.dataPedido = dataPedido;
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public String getStatus() {
@@ -85,5 +90,29 @@ public class Comanda {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(String metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
+    }
+
+    public String getObs() {
+        return obs;
+    }
+
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
+
+    public String getIdMesa() {
+        return idMesa;
+    }
+
+    public void setIdMesa(String idMesa) {
+        this.idMesa = idMesa;
     }
 }

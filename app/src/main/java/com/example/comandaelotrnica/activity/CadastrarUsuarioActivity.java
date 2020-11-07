@@ -6,9 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.Spinner;
 
 import com.example.comandaelotrnica.R;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
@@ -28,10 +29,12 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
 public class CadastrarUsuarioActivity extends AppCompatActivity {
     private EditText campoNome, campoEmail, campoSenha;
+    private Spinner spinner;
     private Button buttonCadastrar;
     private FirebaseAuth autenticacao;
     private Usuario usuario;
-    UsuarioService usuarioService;
+    private UsuarioService usuarioService;
+    private String perfil[] = new String[]{"cliente","empresa"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,45 +44,18 @@ public class CadastrarUsuarioActivity extends AppCompatActivity {
         campoNome = findViewById(R.id.editNome);
         campoEmail = findViewById(R.id.editEmail);
         campoSenha = findViewById(R.id.editSenha);
+        spinner = findViewById(R.id.spinnerPerfil);
         buttonCadastrar = findViewById(R.id.buttonCadastrar);
+
+        ArrayAdapter<String> adapterPerfil = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, perfil);
+        adapterPerfil.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapterPerfil);
 
         buttonCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String textoNome = campoNome.getText().toString();
-                String textoEmail = campoEmail.getText().toString();
-                String textoSenha = campoSenha.getText().toString();
-
-                // Validar os campos que foram preenchidos
-                if(!textoNome.isEmpty()){
-                    if(!textoEmail.isEmpty()){
-                        if (!textoSenha.isEmpty()){
-
-                            String data = DateUtil.dataAtual();
-
-                            usuario = new Usuario();
-                            usuario.setNome(textoNome);
-                            usuario.setEmail(textoEmail);
-                            usuario.setSenha(textoSenha);
-                            usuario.setTipoUsuario("cliente");
-                            usuario.setDataCadstro(data);
-                            cadastrarUsuario();
-
-                        }else {
-                            ToastConfig.showCustomAlert(CadastrarUsuarioActivity.this,
-                                    getLayoutInflater(),
-                                    "Prencha o campo senha.");
-                        }
-                    }else{
-                        ToastConfig.showCustomAlert(CadastrarUsuarioActivity.this,
-                                getLayoutInflater(),
-                                "Preencha o campo email.");
-                    }
-                }else{
-                    ToastConfig.showCustomAlert(CadastrarUsuarioActivity.this,
-                            getLayoutInflater(),
-                            "Preencha o campo nome.");
-                }
+             validarCampos();
             }
         });
     }
@@ -131,5 +107,46 @@ public class CadastrarUsuarioActivity extends AppCompatActivity {
     public void login(View view){
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
+    }
+
+    public void validarCampos(){
+
+        String textoNome = campoNome.getText().toString();
+        String textoEmail = campoEmail.getText().toString();
+        String textoSenha = campoSenha.getText().toString();
+
+        // Validar os campos que foram preenchidos
+        if(!textoNome.isEmpty()){
+            if(!textoEmail.isEmpty()){
+                if (!textoSenha.isEmpty()){
+                    String perfil = (String) spinner.getSelectedItem();
+                    String data = DateUtil.dataAtual();
+
+                    usuario = new Usuario();
+                    if (perfil.equals("cliente"))
+                        usuario.setIdEmpresa("desativado");
+                    usuario.setNome(textoNome);
+                    usuario.setEmail(textoEmail);
+                    usuario.setSenha(textoSenha);
+                    usuario.setTipoUsuario(perfil);
+                    usuario.setDataCadstro(data);
+                    cadastrarUsuario();
+
+                }else {
+                    ToastConfig.showCustomAlert(CadastrarUsuarioActivity.this,
+                            getLayoutInflater(),
+                            "Prencha o campo senha.");
+                }
+            }else{
+                ToastConfig.showCustomAlert(CadastrarUsuarioActivity.this,
+                        getLayoutInflater(),
+                        "Preencha o campo email.");
+            }
+        }else{
+            ToastConfig.showCustomAlert(CadastrarUsuarioActivity.this,
+                    getLayoutInflater(),
+                    "Preencha o campo nome.");
+        }
+
     }
 }

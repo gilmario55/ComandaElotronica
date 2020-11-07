@@ -27,7 +27,8 @@
         <activity
             android:name=".activity.ConfiguracoesActivity"
             android:parentActivityName=".activity.AdminActivity" />
-        <activity android:name=".activity.EditarCaradpioActivity" />
+        <activity android:name=".activity.EditarCaradpioActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".activity.CardapioActivity"
             android:parentActivityName=".activity.AdminActivity"

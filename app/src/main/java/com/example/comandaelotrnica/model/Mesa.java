@@ -2,9 +2,13 @@ package com.example.comandaelotrnica.model;
 
 import com.google.firebase.database.Exclude;
 
-public class Mesa {
+import java.io.Serializable;
+
+public class Mesa implements Serializable {
+
+    private String idEmpresa;
+    private String idMesa;
     private int numeroMesa;
-    private String key;
     private String status;
 
     public int getNumeroMesa() {
@@ -15,13 +19,21 @@ public class Mesa {
         this.numeroMesa = numeroMesa;
     }
 
-    public String getKey() {
-        return key;
+    public String getIdMesa() {
+        return idMesa;
     }
 
     @Exclude
-    public void setKey(String key) {
-        this.key = key;
+    public void setIdMesa(String key) {
+        this.idMesa = key;
+    }
+
+    public String getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(String idEmpresa) {
+        this.idEmpresa = idEmpresa;
     }
 
     public String getStatus() {

@@ -13,12 +13,12 @@
     <!-- Cores para ações de cardapio -->
     <color name="colorCadastar_cardapio">#00897B</color>
     <color name="colorEditar_cardapio">#08E8D1</color>
-    <color name="colorExcluir_cardapio">#E53935</color>
+    <color name="colorExcluir_cardapio">#F45943</color>
 
     <!-- Cores para ações das mesas -->
     <color name="colorCadastar_mesa">#8E24AA</color>
     <color name="colorEditar_mesa">#DF81F8</color>
-    <color name="colorExcluir_mesa">#E53935</color>
+    <color name="colorExcluir_mesa">#6E6E6E</color>
 
     <!-- Cores para uso -->
     <color name="cinza">#C4C4C4</color>

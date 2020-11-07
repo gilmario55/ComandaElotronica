@@ -30,7 +30,7 @@ public class MesaService {
         alertDialog.setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                reference.child(mesa.getKey()).removeValue();
+                reference.child(mesa.getIdMesa()).removeValue();
                 adapterMesa.notifyItemRemoved(position);
             }
         });

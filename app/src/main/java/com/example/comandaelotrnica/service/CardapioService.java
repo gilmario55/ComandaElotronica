@@ -6,31 +6,28 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comandaelotrnica.adapter.AdapterCardapio;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
-import com.example.comandaelotrnica.helper.Base64Custom;
 import com.example.comandaelotrnica.helper.ToastConfig;
-import com.example.comandaelotrnica.model.Cardapio;
+import com.example.comandaelotrnica.model.ItemCardapio;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.DatabaseRegistrar;
 import com.google.firebase.storage.StorageReference;
 
 
 public class CardapioService {
 
-    public void salvar(final Cardapio item, final String key, DatabaseReference databaseReference,
-                       final Context context, final LayoutInflater inflater, final StorageReference storageReference){
+    public void salvar(final ItemCardapio item, final String key, final Context context,
+                       final LayoutInflater inflater, final StorageReference storageReference){
 
-               databaseReference
+        DatabaseReference reference = ConfiguracaoFirebase.getFirebaseDatabase().child("cardapio");
+
+               reference
+                       .child(item.getIdEmpresa())
                        .child(item.getCategoria())
                        .child(key)
                        .setValue(item).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -60,11 +57,12 @@ public class CardapioService {
 
     }
 
-    public void editar(Cardapio item){
+    public void editar(ItemCardapio item){
         DatabaseReference firebase = ConfiguracaoFirebase.getFirebaseDatabase();
         firebase.child("cardapio")
+                .child(item.getIdEmpresa())
                 .child(item.getCategoria())
-                .child(item.getKey())
+                .child(item.getIdItemCardapio())
                 .setValue(item);
     }
 
@@ -78,7 +76,7 @@ public class CardapioService {
 
     }
 
-    public void excluirItem(final Cardapio cardapio, final DatabaseReference reference,
+    public void excluirItem(final ItemCardapio cardapio, final DatabaseReference reference,
                             final AdapterCardapio adapterCardapio, final Context context,
                             final StorageReference storageReference, final int position,
                             final LayoutInflater inflater){
@@ -96,7 +94,7 @@ public class CardapioService {
                 StorageReference imagem = storageReference
                         .child("imagens")
                         .child("cardapio")
-                        .child(cardapio.getKey())
+                        .child(cardapio.getIdItemCardapio())
                         .child("imagemCardapio.jpeg");
                 imagem.delete().addOnFailureListener((Activity) context, new OnFailureListener() {
                     String texto = "Erro ao apagar imagem!";
@@ -106,8 +104,10 @@ public class CardapioService {
                     }
                 });
 
-                reference.child(cardapio.getCategoria())
-                .child(cardapio.getKey()).removeValue().addOnFailureListener(new OnFailureListener() {
+                reference.child(cardapio.getIdEmpresa())
+                        .child(cardapio.getCategoria())
+                        .child(cardapio.getIdItemCardapio())
+                        .removeValue().addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         ToastConfig.showCustomAlert(context,inflater,"Erro ao excluir item.");

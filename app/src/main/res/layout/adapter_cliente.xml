@@ -89,23 +89,25 @@
 
             <TextView
                 android:id="@+id/textView18"
-                android:layout_width="48dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:padding="2dp"
+                android:layout_weight="0"
+                android:padding="5dp"
                 android:text="Status:"
                 android:textColor="@android:color/holo_orange_dark"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewStatusCliente"
-                android:layout_width="45dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:foregroundGravity="center"
                 android:gravity="center|center_vertical"
+                android:paddingLeft="3dp"
                 android:text="of-line"
+                android:textAlignment="textStart"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -119,34 +121,16 @@
                 android:layout_weight="0"
                 android:background="@color/verde_claro" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/circleImageEditarCliente"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:src="@drawable/perfil_verde" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/circleImageExcluirCliente"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:src="@drawable/excluir" />
-
-            <ImageView
-                android:id="@+id/circleImageDesativar"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/ic_power_settings"/>
-
             <ImageView
                 android:id="@+id/imageViewComanda"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="3dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:foregroundGravity="center"
+                android:padding="5dp"
                 app:srcCompat="@drawable/comanda" />
 
         </LinearLayout>

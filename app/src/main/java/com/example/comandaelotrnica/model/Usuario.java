@@ -1,7 +1,5 @@
 package com.example.comandaelotrnica.model;
 
-import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
@@ -17,6 +15,7 @@ public class Usuario implements Serializable {
     private String foto;
     private String status;
     private String perfil;
+    private String idEmpresa;
 
     public Usuario() {
     }
@@ -93,5 +92,13 @@ public class Usuario implements Serializable {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public String getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(String idEmpresa) {
+        this.idEmpresa = idEmpresa;
     }
 }

@@ -21,8 +21,6 @@ public class UsuarioFirebase {
          FirebaseAuth usuario = ConfiguracaoFirebase.getFirebaseAutenticacao();
          String email = usuario.getCurrentUser().getEmail();
          String identificadorUsuario = Base64Custom.codificarBase64(email);
-        System.out.println("Email: " + email + "passou");
-        System.out.println("Id: " + identificadorUsuario);
          return identificadorUsuario;
     }
 

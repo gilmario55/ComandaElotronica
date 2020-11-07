@@ -10,11 +10,59 @@
     <include
         android:id="@+id/include2"
         layout="@layout/toolbar"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textView8"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center"
+        android:padding="3dp"
+        android:text="Adione um item ao cardápio"
+        android:textColor="@color/verde_claro"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/view6"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/include2"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/textView17"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="sans-serif-black"
+        android:padding="5dp"
+        android:text="Nome"
+        android:textColor="@color/verde_claro"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editNomeCardapio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view6" />
 
     <EditText
         android:id="@+id/editNomeCardapio"
@@ -22,20 +70,34 @@
         android:layout_height="35dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/edit_custom"
         android:ems="10"
-        android:hint="Nome"
+        android:hint="Insira o nome do produto"
         android:inputType="textPersonName"
         android:padding="5dp"
         android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/textViewPrecoTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+    <TextView
+        android:id="@+id/textViewPrecoTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="sans-serif-black"
+        android:padding="5dp"
+        android:text="Preço"
+        android:textColor="@color/verde_claro"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/editPrecoCardapio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include2"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@+id/editNomeCardapio" />
 
     <EditText
         android:id="@+id/editPrecoCardapio"
@@ -43,17 +105,33 @@
         android:layout_height="35dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/edit_custom"
         android:ems="10"
-        android:hint="Preço"
+        android:hint="Insira o preço do produto"
         android:inputType="number|numberDecimal"
         android:padding="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewDescricaoTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPrecoTitle" />
+
+    <TextView
+        android:id="@+id/textViewDescricaoTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="sans-serif-black"
+        android:padding="5dp"
+        android:text="Descrição"
+        android:textColor="@color/verde_claro"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textArea_information"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editNomeCardapio" />
+        app:layout_constraintTop_toBottomOf="@+id/editPrecoCardapio" />
 
     <EditText
         android:id="@+id/textArea_information"
@@ -61,7 +139,6 @@
         android:layout_height="64dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/edit_custom"
         android:gravity="top|left"
         android:hint="Descreva o produto."
@@ -75,9 +152,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editPrecoCardapio" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescricaoTitle" />
 
     <TextView
         android:id="@+id/textView4"
@@ -85,7 +161,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="3dp"
         android:fontFamily="sans-serif-black"
         android:padding="5dp"
         android:text="Categoria"
@@ -94,7 +169,6 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/spinnerCategoria"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textArea_information" />
 
@@ -104,52 +178,16 @@
         android:layout_height="35dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/edit_custom"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:hapticFeedbackEnabled="false"
         android:longClickable="false"
         android:padding="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewCatBebida"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/textViewCatBebida"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="3dp"
-        android:fontFamily="sans-serif-black"
-        android:padding="5dp"
-        android:text="Categoria da bebida"
-        android:textColor="@color/verde_claro"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerBebida"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCategoria" />
-
-    <Spinner
-        android:id="@+id/spinnerBebida"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/edit_custom"
-        android:padding="5dp"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCatBebida" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textView5"
@@ -157,7 +195,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="2dp"
         android:fontFamily="sans-serif-black"
         android:padding="5dp"
         android:text="Adicione uma imagem"
@@ -166,27 +203,26 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/imageViewAddCardapio"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerBebida" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCategoria" />
 
     <ImageView
         android:id="@+id/imageViewAddCardapio"
         android:layout_width="132dp"
         android:layout_height="126dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonSalvarCardapio"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:srcCompat="@drawable/add_galery_image" />
 
     <Button
         android:id="@+id/buttonSalvarCardapio"
-        android:layout_width="338dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/botao_customizado_verde"
         android:fontFamily="sans-serif-black"
         android:onClick="salvarCardapio"
@@ -195,7 +231,6 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewAddCardapio" />
 
@@ -209,8 +244,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageViewAddCardapio"
-        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_photo_cinza" />
 
     <ImageButton
@@ -222,8 +255,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageButtonGalery"
-        app:layout_constraintTop_toTopOf="@+id/imageViewAddCardapio"
-        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_camera_cinza" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

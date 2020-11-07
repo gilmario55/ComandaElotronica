@@ -47,7 +47,9 @@ public class AdapterCliente extends RecyclerView.Adapter<AdapterCliente.MyViewHo
         holder.email.setText("E-mail: " + user.getEmail());
         holder.dataCad.setText("Data de cadastro: " + user.getDataCadstro());
         holder.status.setText(user.getStatus());
+        if(user.getStatus().equals("online")){
         holder.status.setTextColor(Color.parseColor("#1CB07E"));
+        }
 
         if (user.getFoto() != null){
             Uri uri = Uri.parse(user.getFoto());

@@ -27,7 +27,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_margin="5dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="3dp"
@@ -35,9 +35,9 @@
                 app:cardUseCompatPadding="false">
 
                 <ImageView
-                    android:id="@+id/ImageViewMesa"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:id="@+id/imageViewMesa"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginBottom="5dp"
                     android:src="@drawable/mesa" />
             </androidx.cardview.widget.CardView>
@@ -58,7 +58,7 @@
             <View
                 android:id="@+id/view2"
                 android:layout_width="2dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"

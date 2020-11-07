@@ -38,14 +38,15 @@
         fab:menu_icon="@drawable/ic_menu_memu">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_cadastrar_cliente"
+            android:id="@+id/menu_cadastrar_categoria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="cadastrarCliente"
-            android:src="@drawable/ic_adicionar_cliete"
+            android:src="@drawable/ic_add_categoria"
             fab:fab_colorNormal="@color/colorCadastar"
-            fab:fab_label="Cadastrar"
-            fab:fab_size="mini" />
+            fab:fab_label="Cadastrar categoria"
+            fab:fab_size="mini"
+            app:fab_colorDisabled="@color/cinza_claro"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_cadastrar_cardapio"

@@ -13,16 +13,12 @@ import com.example.comandaelotrnica.R;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
 import com.example.comandaelotrnica.helper.Base64Custom;
 import com.example.comandaelotrnica.model.Usuario;
-import com.example.comandaelotrnica.service.UsuarioService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +30,7 @@ public class HomeFragment extends Fragment {
     private FirebaseAuth auth = ConfiguracaoFirebase.getFirebaseAutenticacao();
     private DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
     private ValueEventListener listener;
-    Usuario usuario = new Usuario();
+    private Usuario usuario = new Usuario();
 
     public HomeFragment() {
         // Required empty public constructor

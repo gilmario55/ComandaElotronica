@@ -28,6 +28,11 @@
         android:name="com.example.comandaelotrnica.ui.admin.mesas.MesasFragment"
         android:label="@string/menu_mesas"
         tools:layout="@layout/fragment_mesas" />
+    <fragment
+        android:id="@+id/nav_categoria"
+        android:name="com.example.comandaelotrnica.ui.admin.categoria.CategoriaFragment"
+        android:label="@string/menu_categoria"
+        tools:layout="@layout/fragment_categoria"/>
 
 
 </navigation>

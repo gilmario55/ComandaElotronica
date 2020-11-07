@@ -10,15 +10,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.comandaelotrnica.fragment.ListCardapioFragment;
 import com.example.comandaelotrnica.helper.UsuarioFirebase;
-import com.example.comandaelotrnica.ui.admin.home.HomeFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +27,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
-import android.widget.TextView;
 
 import java.util.HashMap;
 
@@ -65,12 +62,14 @@ public class AdminActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_clientes, R.id.nav_cardapio, R.id.nav_mesas)
+                R.id.nav_home, R.id.nav_clientes, R.id.nav_cardapio, R.id.nav_mesas, R.id.nav_categoria)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+       // fragment = (RefeicaoFragment) getSupportFragmentManager().findFragmentByTag("fragment_list_cardapio.xml");
 
         /*recyclerView = findViewById(R.id.recyclerViewCardapio);
 
@@ -81,6 +80,7 @@ public class AdminActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapterCardapio);*/
+
     }
 
     @Override
@@ -131,32 +131,8 @@ public class AdminActivity extends AppCompatActivity {
 
     }
 
-   /* public void recuperarCardapio(){
-        String emaiUser = autenticacao.getCurrentUser().getEmail();
-        String idUser = Base64Custom.codificarBase64(emaiUser);
-        cardapioRef.child("cardapio")
-                .child(idUser);
-        valueEventListenerCardapio = cardapioRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                list.clear();
-
-                for (DataSnapshot dados : dataSnapshot.getChildren()){
-                    Cardapio cardapio = dados.getValue(Cardapio.class);
-                    list.add(cardapio);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }*/
-
    public void abrirConfig(){
        Intent intent = new Intent(AdminActivity.this,ConfiguracoesActivity.class);
        startActivity(intent);
    }
-
 }

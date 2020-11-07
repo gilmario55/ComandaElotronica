@@ -15,6 +15,9 @@ import com.example.comandaelotrnica.R;
  */
 public class InicioFragment extends Fragment {
 
+
+
+
     public InicioFragment() {
         // Required empty public constructor
     }
@@ -26,4 +29,6 @@ public class InicioFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_inicio, container, false);
     }
+
+
 }

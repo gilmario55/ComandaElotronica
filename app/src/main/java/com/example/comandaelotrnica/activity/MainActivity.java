@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.example.comandaelotrnica.R;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
-import com.example.comandaelotrnica.helper.Base64Custom;
 import com.example.comandaelotrnica.helper.UsuarioFirebase;
 import com.example.comandaelotrnica.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,8 +24,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.heinrichreimersoftware.materialintro.app.IntroActivity;
-import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 
 import java.util.HashMap;
 
@@ -132,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void abrirTelaPrincipal(String texto){
 
-        if (texto.equals("admin")) {
+        if (texto.equals("empresa")) {
            if(autenticacao.getCurrentUser() != null){
                HashMap<String,Object> value = new HashMap<>();
                value.put("status","online");
@@ -142,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
            }
             startActivity(new Intent(this, AdminActivity.class));
             finish();
-        }else{
+        }else {
             startActivity(new Intent(this, ClienteActivity.class));
             finish();
         }

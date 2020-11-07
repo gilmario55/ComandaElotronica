@@ -1,12 +1,13 @@
 package com.example.comandaelotrnica.ui.admin.cardapio;
 
-import android.app.ActionBar;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
@@ -14,15 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.comandaelotrnica.R;
-import com.example.comandaelotrnica.activity.CardapioActivity;
-import com.example.comandaelotrnica.adapter.AdapterCardapio;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
-import com.example.comandaelotrnica.fragment.BebidasFragment;
-import com.example.comandaelotrnica.fragment.RefeicaoFragment;
-import com.example.comandaelotrnica.fragment.SobremesaFragment;
-import com.example.comandaelotrnica.helper.Base64Custom;
-import com.example.comandaelotrnica.model.Cardapio;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.comandaelotrnica.fragment.ListCardapioFragment;
+import com.example.comandaelotrnica.model.CategoriaCardapio;
+import com.example.comandaelotrnica.helper.UsuarioFirebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,7 +37,13 @@ import java.util.List;
  */
 public class CardapioFragment extends Fragment {
 
-    private String[] cardapio = {"Pratos", "Bebidas", "Sobremesas"};
+    private List<String> list;
+    private ValueEventListener listener;
+    private DatabaseReference reference;
+
+    FragmentManager manager;
+
+    FragmentPagerItemAdapter adapter;
 
     private SmartTabLayout smartTabLayout;
     private ViewPager viewPager;
@@ -50,32 +52,72 @@ public class CardapioFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cardapio, container, false);
         smartTabLayout = view.findViewById(R.id.viewPagerTab);
         viewPager = view.findViewById(R.id.viewPager);
+        list = new ArrayList<>();
+        reference = ConfiguracaoFirebase.getFirebaseDatabase();
+        manager = getActivity().getSupportFragmentManager();
+        recuperarCategoria();
+        return view;
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        reference.removeEventListener(listener);
+    }
 
-       FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
-                 getActivity().getSupportFragmentManager(), FragmentPagerItems.with(getActivity())
-                .add(cardapio[0], RefeicaoFragment.class)
-                .add(cardapio[1], BebidasFragment.class)
-                .add(cardapio[2], SobremesaFragment.class)
-                .create());
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        reference.removeEventListener(listener);
+    }
 
+    public void recuperarCategoria( ){
+        String idEmpresa = UsuarioFirebase.getIdentificaçãoUsuario();
+        Query query = reference
+                .child("categoriaCardapio")
+                .child(idEmpresa);
+        listener = query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list.clear();
+                for (DataSnapshot data : snapshot.getChildren()){
+                    CategoriaCardapio cat = data.getValue(CategoriaCardapio.class);
+                    list.add(cat.getNome());
+                }
+                tabs();
 
-       // Intent intent = new Intent(this, CardapioFragment);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void tabs (){
+        FragmentPagerItems pages = new FragmentPagerItems(getActivity());
+        for (String categoria : list){
+            Bundle bundle = new Bundle();
+            bundle.putString("categoria",categoria);
+            pages.add(FragmentPagerItem.of(categoria+"s", ListCardapioFragment.class,bundle));
+        }
+        adapter = new FragmentPagerItemAdapter(
+                manager
+                ,pages);
 
         viewPager.setAdapter(adapter);
         smartTabLayout.setViewPager(viewPager);
 
-        return view;
     }
-
-
 
 }
