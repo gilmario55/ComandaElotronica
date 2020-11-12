@@ -97,7 +97,7 @@ public class AdminActivity extends AppCompatActivity {
             case R.id.action_sair:
                 autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
                 DatabaseReference reference = ConfiguracaoFirebase.getFirebaseDatabase();
-                String idUser = UsuarioFirebase.getIdentificaçãoUsuario();
+                String idUser = UsuarioFirebase.getIdentificacaoUsuario();
                 HashMap<String,Object> value = new HashMap<>();
                 value.put("status","offline");
                 reference.child("usuarios").child(idUser).updateChildren(value);

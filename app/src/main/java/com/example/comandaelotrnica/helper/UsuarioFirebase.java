@@ -17,7 +17,7 @@ import com.google.firebase.storage.StorageReference;
 public class UsuarioFirebase {
 
 
-    public static String getIdentificaçãoUsuario(){
+    public static String getIdentificacaoUsuario(){
          FirebaseAuth usuario = ConfiguracaoFirebase.getFirebaseAutenticacao();
          String email = usuario.getCurrentUser().getEmail();
          String identificadorUsuario = Base64Custom.codificarBase64(email);

@@ -8,14 +8,17 @@ import android.widget.Toast;
 import com.example.comandaelotrnica.adapter.AdapterMesa;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
 import com.example.comandaelotrnica.model.Mesa;
+import com.example.comandaelotrnica.helper.UsuarioFirebase;
 import com.google.firebase.database.DatabaseReference;
 
 public class MesaService {
 
     public void salvarMesa(Mesa mesa){
         DatabaseReference reference = ConfiguracaoFirebase.getFirebaseDatabase();
+        String idEmpresa = UsuarioFirebase.getIdentificacaoUsuario();
 
         reference.child("mesa")
+                .child(idEmpresa)
                 .push()
                 .setValue(mesa);
     }
@@ -30,7 +33,9 @@ public class MesaService {
         alertDialog.setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                reference.child(mesa.getIdMesa()).removeValue();
+                reference
+                        .child(mesa.getIdEmpresa())
+                        .child(mesa.getIdMesa()).removeValue();
                 adapterMesa.notifyItemRemoved(position);
             }
         });

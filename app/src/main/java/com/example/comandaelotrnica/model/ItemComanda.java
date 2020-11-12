@@ -1,13 +1,14 @@
 package com.example.comandaelotrnica.model;
 
-public class ItensComanda {
+public class ItemComanda {
 
     private String idCardapio;
     private String nomeItem;
+    private String statusItem;
     private int quantidade;
     private double preco;
 
-    public ItensComanda() {
+    public ItemComanda() {
     }
 
     public String getIdCardapio() {
@@ -24,6 +25,14 @@ public class ItensComanda {
 
     public void setNomeItem(String nomeItem) {
         this.nomeItem = nomeItem;
+    }
+
+    public String getStatusItem() {
+        return statusItem;
+    }
+
+    public void setStatusItem(String statusItem) {
+        this.statusItem = statusItem;
     }
 
     public int getQuantidade() {

@@ -7,15 +7,17 @@ import java.io.Serializable;
 public class Usuario implements Serializable {
 
     private String idUsuario;
+    private String idEmpresa;
+    private int numeroMesa;
     private String nome;
     private String email;
     private String senha;
     private String tipoUsuario;
-    private String dataCadstro;
+    private String dataCadastro;
     private String foto;
-    private String status;
     private String perfil;
-    private String idEmpresa;
+    private String status;
+
 
     public Usuario() {
     }
@@ -28,20 +30,12 @@ public class Usuario implements Serializable {
         this.perfil = perfil;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getDataCadstro() {
-        return dataCadstro;
+        return dataCadastro;
     }
 
     public void setDataCadstro(String dataCadstro) {
-        this.dataCadstro = dataCadstro;
+        this.dataCadastro = dataCadstro;
     }
 
     @Exclude
@@ -100,5 +94,29 @@ public class Usuario implements Serializable {
 
     public void setIdEmpresa(String idEmpresa) {
         this.idEmpresa = idEmpresa;
+    }
+
+    public int getNumeroMesa() {
+        return numeroMesa;
+    }
+
+    public void setNumeroMesa(int numeroMesa) {
+        this.numeroMesa = numeroMesa;
+    }
+
+    public String getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(String dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

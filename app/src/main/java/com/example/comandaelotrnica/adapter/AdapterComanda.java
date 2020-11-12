@@ -1,30 +1,39 @@
 package com.example.comandaelotrnica.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comandaelotrnica.R;
+import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
 import com.example.comandaelotrnica.model.Comanda;
+import com.example.comandaelotrnica.model.ItemComanda;
+import com.example.comandaelotrnica.service.ComandaService;
+import com.google.firebase.database.DatabaseReference;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class AdapterComanda extends RecyclerView.Adapter<AdapterComanda.MyViewHolder>
 implements View.OnClickListener {
 
     private Context context;
-    private List<Comanda> list;
+    private List<ItemComanda> listCarrinho;
+    private List<Comanda> comanda;
     private View.OnClickListener listener;
 
-    public AdapterComanda(Context context, List<Comanda> comanda){
-        context = context;
-        list = comanda;
+    public AdapterComanda(Context context, List<ItemComanda> listCarrinho, List<Comanda> comanda){
+        this.context = context;
+        this.listCarrinho = listCarrinho;
+        this.comanda = comanda;
+
     }
 
 
@@ -39,19 +48,31 @@ implements View.OnClickListener {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-        Comanda comanda = list.get(position);
-        //holder.nome.setText(comanda.getNomeItem());
-        //holder.quantidade.setText("Qunatidade: " + comanda.getQuantidade());
-        //holder.preco.setText("Preço a pagar: " + String.valueOf(comanda.getPreco()));
-        holder.status.setText(comanda.getStatus());
+       ItemComanda item = listCarrinho.get(position);
+        DecimalFormat df = new DecimalFormat("0.00");
+           holder.nome.setText(item.getNomeItem());
+           holder.quantidade.setText("Quantidade: " + item.getQuantidade());
+           holder.preco.setText("R$ " + df.format(item.getPreco()));
+           holder.status.setText(item.getStatusItem());
+
+           holder.imagecancelar.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   ComandaService service = new ComandaService();
+                   Comanda c = comanda.get(0);
+                   c.getItens().remove(position);
+                   service.salvar(c);
+               }
+           });
+
 
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return listCarrinho.size();
     }
 
     public void setOnClickListener(View.OnClickListener listener){
@@ -67,7 +88,7 @@ implements View.OnClickListener {
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView nome, preco, quantidade, status;
-        Button buttoncancelar;
+        ImageView imagecancelar;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,8 +96,11 @@ implements View.OnClickListener {
             nome = itemView.findViewById(R.id.textViewNomeItemComanda);
             preco = itemView.findViewById(R.id.textViewPrecoComanda);
             quantidade = itemView.findViewById(R.id.textViewQtdComanda);
-            status = itemView.findViewById(R.id.textViewStatusComanda);
-            buttoncancelar = itemView.findViewById(R.id.buttonCancelarItemComanda);
+            status = itemView.findViewById(R.id.textViewPreparoComanda);
+            imagecancelar = itemView.findViewById(R.id.imageViewExcluirItem);
         }
+
+
+
     }
 }

@@ -49,7 +49,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     private EditText editTextNome;
     private ImageView imageAtualizarNome;
     private StorageReference storageReference = ConfiguracaoFirebase.getFirebaseStorage();;
-    private String idUsuario = UsuarioFirebase.getIdentificaçãoUsuario();
+    private String idUsuario;
     private Usuario usuarioLogado = UsuarioFirebase.getDadosUsuarioLogado();
     private UsuarioService usuarioService = new UsuarioService();
     private static final int SELECAO_CAMERA = 100, SELECAO_GALERIA = 200;
@@ -65,7 +65,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_configuracoes);
 
         // idUsuario = UsuarioFirebase.getIdentificaçãoUsuario();
-        idUsuario = UsuarioFirebase.getIdentificaçãoUsuario();
+        idUsuario = UsuarioFirebase.getIdentificacaoUsuario();
 
         // Validar Permições
         Permissao.validarPermissoes(permissoesNescessarias,this,1);

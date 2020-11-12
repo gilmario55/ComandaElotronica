@@ -305,7 +305,7 @@ public class CardapioActivity extends AppCompatActivity {
 
     public void recuperarCategoria(){
 
-        String idEmpresa = UsuarioFirebase.getIdentificaçãoUsuario();
+        String idEmpresa = UsuarioFirebase.getIdentificacaoUsuario();
 
         firebase = firebase
                 .child("categoriaCardapio")

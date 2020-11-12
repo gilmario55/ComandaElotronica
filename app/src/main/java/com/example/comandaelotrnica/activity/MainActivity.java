@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private Usuario usuario;
     private FirebaseAuth autenticacao;
     private DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+    private String idUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +44,7 @@ public class MainActivity extends AppCompatActivity {
         editSenha = findViewById(R.id.textInputSenha);
         buttonEntrar = findViewById(R.id.buttonEntrar);
 
-       /* setButtonBackVisible(false);
-        setButtonNextVisible(false);
-        addSlide(new FragmentSlide.Builder()
-                        .background(android.R.color.white)
-                        .fragment(R.layout.intro_1)
-                        .build());
-        addSlide(new FragmentSlide.Builder()
-                .background(android.R.color.white)
-                .fragment(R.layout.intro_2)
-                .build()); */
+
         buttonEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,8 +126,7 @@ public class MainActivity extends AppCompatActivity {
                HashMap<String,Object> value = new HashMap<>();
                value.put("status","online");
                DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
-               String idUser = UsuarioFirebase.getIdentificaçãoUsuario();
-               usuarioRef.child("usuarios").child(idUser).updateChildren(value);
+               usuarioRef.child("usuarios").child(idUsuario).updateChildren(value);
            }
             startActivity(new Intent(this, AdminActivity.class));
             finish();
@@ -146,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void recuperarUsuario(){
-        String idUsuario = UsuarioFirebase.getIdentificaçãoUsuario();
+        idUsuario = UsuarioFirebase.getIdentificacaoUsuario();
         DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
         usuarioRef.addValueEventListener(new ValueEventListener() {
             @Override

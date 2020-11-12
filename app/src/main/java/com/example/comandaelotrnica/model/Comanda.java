@@ -5,37 +5,38 @@ import com.google.firebase.database.DatabaseReference;
 import java.util.List;
 
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
+import com.google.firebase.database.Exclude;
 
 public class Comanda {
 
    private String idUsuario;
    private String idEmpresa;
-   private String idMesa;
-   private String idComanda;
+    private String idComanda;
+   private int numeroMesa;
    private String nomeUsuario;
-   private List<ItensComanda> itens;
+   private List<ItemComanda> itens;
    private double total;
-   private String status = "abreta";
+   private String status = "aberta";
    private String metodoPagamento;
    private String obs;
+   private String dataComanda;
 
     public Comanda() {
     }
 
-    public Comanda(String idUsuario, String idEmpresa, String idMesa) {
+    public Comanda(String idUsuario, String idEmpresa) {
         this.idUsuario = idUsuario;
         this.idEmpresa = idEmpresa;
-        this.idMesa = idMesa;
 
         DatabaseReference databaseReference = ConfiguracaoFirebase.getFirebaseDatabase();
         DatabaseReference reference = databaseReference
                 .child("comanda")
-                .child(getIdEmpresa())
                 .child(getIdUsuario())
-                .child(getIdMesa());
+                .child(getIdEmpresa());
         setIdComanda(reference.push().getKey());
     }
 
+    @Exclude
     public String getIdUsuario() {
         return idUsuario;
     }
@@ -44,6 +45,7 @@ public class Comanda {
         this.idUsuario = idUsuario;
     }
 
+    @Exclude
     public String getIdEmpresa() {
         return idEmpresa;
     }
@@ -68,11 +70,11 @@ public class Comanda {
         this.nomeUsuario = nomeUsuario;
     }
 
-    public List<ItensComanda> getItens() {
+    public List<ItemComanda> getItens() {
         return itens;
     }
 
-    public void setItens(List<ItensComanda> itens) {
+    public void setItens(List<ItemComanda> itens) {
         this.itens = itens;
     }
 
@@ -108,11 +110,19 @@ public class Comanda {
         this.obs = obs;
     }
 
-    public String getIdMesa() {
-        return idMesa;
+    public int getNumeroMesa() {
+        return numeroMesa;
     }
 
-    public void setIdMesa(String idMesa) {
-        this.idMesa = idMesa;
+    public void setNumeroMesa(int numeroMesa) {
+        this.numeroMesa = numeroMesa;
+    }
+
+    public String getDataComanda() {
+        return dataComanda;
+    }
+
+    public void setDataComanda(String dataComanda) {
+        this.dataComanda = dataComanda;
     }
 }

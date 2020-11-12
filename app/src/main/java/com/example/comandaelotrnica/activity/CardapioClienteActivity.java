@@ -6,13 +6,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.widget.EditText;
 
 import com.example.comandaelotrnica.R;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
 import com.example.comandaelotrnica.fragment.CardapioClienteFragment;
 import com.example.comandaelotrnica.helper.UsuarioFirebase;
 import com.example.comandaelotrnica.model.CategoriaCardapio;
+import com.example.comandaelotrnica.model.ItemCardapio;
 import com.example.comandaelotrnica.model.Usuario;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,7 +39,8 @@ public class CardapioClienteActivity extends AppCompatActivity {
     private ValueEventListener listener;
     private List<String> list = new ArrayList<>();
     private FragmentPagerItemAdapter adapter;
-    private  String idEmpresa;
+    private  String idEmpresa, idUsuario;
+    private Usuario usuario;
     private FragmentManager manager;
 
     @Override
@@ -43,11 +48,15 @@ public class CardapioClienteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardapio_cliente);
 
+        idUsuario = UsuarioFirebase.getIdentificacaoUsuario();
+
         smartTabLayout = findViewById(R.id.viewPagerTabCardapioCliente);
         viewPager = findViewById(R.id.viewPagerCardapioCliente);
 
         manager = getSupportFragmentManager();
-        recuperarCategoria();
+
+        recuperarUsuario();
+
 
         Toolbar toolbar = findViewById(R.id.toolbarPersonalizada);
         toolbar.setTitle("Cardapio");
@@ -55,6 +64,12 @@ public class CardapioClienteActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
 
     @Override
     protected void onStop() {
@@ -65,8 +80,8 @@ public class CardapioClienteActivity extends AppCompatActivity {
     public void recuperarCategoria( ){
 
         Query query = firebase
-                .child(idEmpresa)
-                .child("categoriaCardapio");
+                .child("categoriaCardapio")
+                .child(usuario.getIdEmpresa());
         listener = query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -91,7 +106,7 @@ public class CardapioClienteActivity extends AppCompatActivity {
         for (String categoria : list){
             Bundle bundle = new Bundle();
             bundle.putString("categoria",categoria);
-            pages.add(FragmentPagerItem.of(categoria+"s", CardapioClienteFragment.class,bundle));
+            pages.add(FragmentPagerItem.of(categoria, CardapioClienteFragment.class,bundle));
         }
         adapter = new FragmentPagerItemAdapter(
                 manager
@@ -101,6 +116,25 @@ public class CardapioClienteActivity extends AppCompatActivity {
         smartTabLayout.setViewPager(viewPager);
 
     }
+
+    public void recuperarUsuario(){
+        DatabaseReference reference = firebase.child("usuarios")
+                .child(idUsuario);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                usuario = snapshot.getValue(Usuario.class);
+                System.out.println("idEmpresa: "  + usuario.getIdEmpresa());
+                recuperarCategoria();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
     public interface MyCallback {
         void onCallback(Usuario usuario);

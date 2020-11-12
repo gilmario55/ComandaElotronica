@@ -123,8 +123,10 @@ public class CadastrarUsuarioActivity extends AppCompatActivity {
                     String data = DateUtil.dataAtual();
 
                     usuario = new Usuario();
-                    if (perfil.equals("cliente"))
-                        usuario.setIdEmpresa("desativado");
+                    if (perfil.equals("cliente")){
+                        usuario.setIdEmpresa("vazio");
+                        usuario.setNumeroMesa(-1);
+                    }
                     usuario.setNome(textoNome);
                     usuario.setEmail(textoEmail);
                     usuario.setSenha(textoSenha);

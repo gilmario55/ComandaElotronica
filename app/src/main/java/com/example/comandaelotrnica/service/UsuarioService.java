@@ -21,7 +21,7 @@ public class UsuarioService {
     }
 
     public void atualizar(Usuario usuario){
-        String idUsuario = UsuarioFirebase.getIdentificaçãoUsuario();
+        String idUsuario = UsuarioFirebase.getIdentificacaoUsuario();
         DatabaseReference database = ConfiguracaoFirebase.getFirebaseDatabase();
         DatabaseReference usuarioRef = database.child("usuarios")
                 .child(idUsuario);

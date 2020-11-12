@@ -62,7 +62,7 @@ public class EditarCaradpioActivity extends AppCompatActivity {
     private StorageReference storageReference = ConfiguracaoFirebase.getFirebaseStorage();
     private DatabaseReference reference = ConfiguracaoFirebase.getFirebaseDatabase();
     private ValueEventListener listener;
-    private String idUsuario = UsuarioFirebase.getIdentificaçãoUsuario();
+    private String idUsuario = UsuarioFirebase.getIdentificacaoUsuario();
     private static final int SELECAO_CAMERA = 100, SELECAO_GALERIA = 200;
     private ArrayAdapter<String> adapterCategoria;
     private String[] permissoesNescessarias = new String[]{

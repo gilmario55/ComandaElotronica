@@ -23,7 +23,7 @@ import com.example.comandaelotrnica.helper.Base64Custom;
 import com.example.comandaelotrnica.helper.UsuarioFirebase;
 import com.example.comandaelotrnica.listener.RecyclerItemClickListener;
 import com.example.comandaelotrnica.model.Usuario;
-import com.example.comandaelotrnica.ui.admin.home.HomeFragment;
+import com.example.comandaelotrnica.ui.home.HomeFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -96,8 +96,11 @@ public class ClienteActivity extends AppCompatActivity {
         recupearUsuario(new HomeFragment.MyCallback() {
             @Override
             public void onCallback(Usuario usuario) {
-                if(!usuario.getIdEmpresa().equals("desativado"))
+                if(!usuario.getIdEmpresa().equals("vazio"))
                 getMenuInflater().inflate(R.menu.cliente, menu);
+                else{
+                    getMenuInflater().inflate(R.menu.cliente_aux,menu);
+                }
             }
         });
         return true;
@@ -107,7 +110,7 @@ public class ClienteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_sair:
-                String idUser = UsuarioFirebase.getIdentificaçãoUsuario();
+                String idUser = UsuarioFirebase.getIdentificacaoUsuario();
                 HashMap<String,Object> value = new HashMap<>();
                 value.put("status","offline");
                 usuarioRef.child("usuarios").child(idUser).updateChildren(value);
@@ -122,8 +125,9 @@ public class ClienteActivity extends AppCompatActivity {
                 break;
             case R.id.action_comanda:
 
-                abrirDialog();
-               // abrirComanda();
+                //abrirDialog();
+                Intent intent = new Intent(this,ComandaActivity.class);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -146,7 +150,7 @@ public class ClienteActivity extends AppCompatActivity {
                 empresaList.clear();
                 for (DataSnapshot data : snapshot.getChildren()){
                     Usuario usuario = data.getValue(Usuario.class);
-                    usuario.setIdUsuario(data.getKey());
+                    usuario.setIdEmpresa(data.getKey());
                     empresaList.add(usuario);
                 }
                 adapterEmpresa.notifyDataSetChanged();
@@ -213,7 +217,7 @@ public class ClienteActivity extends AppCompatActivity {
                                 value.put("idEmpresa",empresa.getIdUsuario());
                                 value.put("status","online");
                                 DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
-                                String idUser = UsuarioFirebase.getIdentificaçãoUsuario();
+                                String idUser = UsuarioFirebase.getIdentificacaoUsuario();
                                 usuarioRef.child("usuarios").child(idUser).updateChildren(value).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -222,6 +226,10 @@ public class ClienteActivity extends AppCompatActivity {
                                         startActivity(i);
                                     }
                                 });
+
+                               // Intent i = new Intent(ClienteActivity.this, ComandaActivity.class);
+                               // i.putExtra("empresa",empresa);
+                                //startActivity(i);
                             }
 
                             @Override
