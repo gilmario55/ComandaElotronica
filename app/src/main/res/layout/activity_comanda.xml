@@ -23,7 +23,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/anton_regular"
         android:padding="3dp"
-        android:text="Meu pedido"
+        android:text="Minha Comanda"
         android:textColor="@color/verde_claro"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,8 +34,9 @@
         android:id="@+id/recyclerViewComanda"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutComanda"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -49,8 +50,8 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/botao_customizado_verde"
         android:backgroundTint="@color/botao_cor"
-        android:text="Fechar pedido"
-        android:textColor="@android:color/black"
+        android:text="Fechar Comanda"
+        android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,33 +59,53 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayoutComanda"
         android:layout_width="0dp"
-        android:layout_height="85dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
+        android:padding="5dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/textView26"
+        <View
+            android:id="@+id/view11"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Número da mesa" />
+            android:layout_height="2dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="3dp"
+            android:background="@color/verde_claro" />
 
         <TextView
-            android:id="@+id/textView25"
+            android:id="@+id/textViewNumMesa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Valor total da comanda" />
+            android:layout_marginBottom="2dp"
+            android:text="Número da mesa"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView27"
+            android:id="@+id/textViewValorComanda"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Data" />
+            android:layout_marginBottom="2dp"
+            android:text="Valor total da comanda"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewDataComanda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Data"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

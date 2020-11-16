@@ -12,14 +12,14 @@ public class Comanda {
    private String idUsuario;
    private String idEmpresa;
     private String idComanda;
-   private int numeroMesa;
    private String nomeUsuario;
    private List<ItemComanda> itens;
-   private double total;
    private String status = "aberta";
    private String metodoPagamento;
    private String obs;
    private String dataComanda;
+    private int numeroMesa;
+    private double total;
 
     public Comanda() {
     }
@@ -110,19 +110,19 @@ public class Comanda {
         this.obs = obs;
     }
 
-    public int getNumeroMesa() {
-        return numeroMesa;
-    }
-
-    public void setNumeroMesa(int numeroMesa) {
-        this.numeroMesa = numeroMesa;
-    }
-
     public String getDataComanda() {
         return dataComanda;
     }
 
     public void setDataComanda(String dataComanda) {
         this.dataComanda = dataComanda;
+    }
+
+    public int getNumeroMesa() {
+        return numeroMesa;
+    }
+
+    public void setNumeroMesa(int numeroMesa) {
+        this.numeroMesa = numeroMesa;
     }
 }

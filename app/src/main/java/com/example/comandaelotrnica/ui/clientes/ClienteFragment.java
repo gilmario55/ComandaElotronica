@@ -1,4 +1,4 @@
-package com.example.comandaelotrnica.ui.admin.clientes;
+package com.example.comandaelotrnica.ui.clientes;
 
 import android.os.Bundle;
 

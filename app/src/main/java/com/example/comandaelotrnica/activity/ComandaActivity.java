@@ -10,6 +10,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.comandaelotrnica.R;
 import com.example.comandaelotrnica.adapter.AdapterComanda;
@@ -23,26 +26,30 @@ import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class ComandaActivity extends AppCompatActivity {
 
+    private TextView textViewNumMesa, textViewData, textViewValorTotal;
+    private LinearLayout linearLayout;
     private AdapterComanda adapterComanda;
     private List<Comanda> comanda = new ArrayList<>();
     private List<ItemComanda> listCarrinho = new ArrayList<>();
     private List<ItemComanda> itensCarrinho = new ArrayList<>();
     private ComandaService service = new ComandaService();
     private RecyclerView recyclerView;
-    private DatabaseReference reference = ConfiguracaoFirebase.getFirebaseDatabase();
+    final private DatabaseReference reference = ConfiguracaoFirebase.getFirebaseDatabase();
     private ValueEventListener listener;
     private Mesa mesa;
     private Usuario empresa, cliente;
     private Comanda comandaRecuperada;
-    private String idUsuario = UsuarioFirebase.getIdentificacaoUsuario();
+    final private String idUsuario = UsuarioFirebase.getIdentificacaoUsuario();
     private int qtdItensCarrinho;
     private double totalCarrinho;
     private String metodoPagamento;
@@ -52,6 +59,11 @@ public class ComandaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comanda);
         recyclerView = findViewById(R.id.recyclerViewComanda);
+        textViewData = findViewById(R.id.textViewDataComanda);
+        textViewNumMesa = findViewById(R.id.textViewNumMesa);
+        textViewValorTotal = findViewById(R.id.textViewValorComanda);
+        linearLayout= findViewById(R.id.linearLayoutComanda);
+
         adapterComanda = new AdapterComanda(ComandaActivity.this,listCarrinho,comanda);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ComandaActivity.this);
@@ -130,12 +142,13 @@ public class ComandaActivity extends AppCompatActivity {
     }
 
     public void recuperarComanda(){
-        DatabaseReference database = reference
+
+        Query database = reference
                 .child("comanda_aberta")
                 .child(idUsuario)
                 .child(cliente.getIdEmpresa());
 
-       database.addValueEventListener(new ValueEventListener() {
+       listener = database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 qtdItensCarrinho = 0;
@@ -143,6 +156,7 @@ public class ComandaActivity extends AppCompatActivity {
                 itensCarrinho = new ArrayList<>();
 
                 if(snapshot.getValue() != null){
+                    linearLayout.setVisibility(View.VISIBLE);
                     listCarrinho.clear();
                     comanda.clear();
                     comandaRecuperada = snapshot.getValue(Comanda.class);
@@ -153,15 +167,22 @@ public class ComandaActivity extends AppCompatActivity {
                     if (itensCarrinho != null){
                         for(ItemComanda itemPedido: itensCarrinho){
                             int qtde = itemPedido.getQuantidade();
-                            double preco = itemPedido.getPreco();
+                            double preco = itemPedido.getPrecoTotal();
 
-                            totalCarrinho += (qtde * preco);
+                            totalCarrinho += itemPedido.getPrecoTotal();
                             qtdItensCarrinho += qtde;
                             listCarrinho.add(itemPedido);
                             adapterComanda.notifyDataSetChanged();
                         }
-                    }
 
+
+                    }else {
+                        adapterComanda.notifyDataSetChanged();
+                    }
+                    DecimalFormat df = new DecimalFormat("0.00");
+                    textViewData.setText("Data da Comanda: " + comandaRecuperada.getDataComanda());
+                    textViewNumMesa.setText(String.valueOf("Numero da Mesa: " + (comandaRecuperada.getNumeroMesa() + 1)));
+                    textViewValorTotal.setText(String.valueOf("Valor total da comanda: R$ " + df.format(totalCarrinho)));
                 }
             }
 
@@ -170,6 +191,10 @@ public class ComandaActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public interface MyCallback {
+        void onCallback(Comanda comanda);
     }
 
 }

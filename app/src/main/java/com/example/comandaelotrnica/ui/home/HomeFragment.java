@@ -1,7 +1,9 @@
 package com.example.comandaelotrnica.ui.home;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -19,6 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +47,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         textViewNome = view.findViewById(R.id.textViewNomeUser);
+
             recupearUsuario(new MyCallback() {
                 @Override
                 public void onCallback(Usuario usuario) {
@@ -60,6 +65,7 @@ public class HomeFragment extends Fragment {
         }else {
             getActivity().onBackPressed();
         }
+
         final String idUser = Base64Custom.codificarBase64(emailUser);
         Query query = usuarioRef.child("usuarios").child(idUser);
         listener = query.addValueEventListener(new ValueEventListener() {
@@ -79,10 +85,6 @@ public class HomeFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
 
     @Override
     public void onStop() {

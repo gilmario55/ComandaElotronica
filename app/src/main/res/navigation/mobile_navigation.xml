@@ -7,30 +7,32 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.comandaelotrnica.ui.admin.home.HomeFragment"
+        android:name="com.example.comandaelotrnica.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+
+        tools:layout="@layout/fragment_home" >
+    </fragment>
 
     <fragment
         android:id="@+id/nav_clientes"
-        android:name="com.example.comandaelotrnica.ui.admin.clientes.ClienteFragment"
+        android:name="com.example.comandaelotrnica.ui.clientes.ClienteFragment"
         android:label="@string/menu_clientes"
         tools:layout="@layout/fragment_clientes" />
 
     <fragment
         android:id="@+id/nav_cardapio"
-        android:name="com.example.comandaelotrnica.ui.admin.cardapio.CardapioFragment"
+        android:name="com.example.comandaelotrnica.ui.cardapio.CardapioFragment"
         android:label="@string/menu_cardapio"
         tools:layout="@layout/fragment_cardapio" />
 
     <fragment
         android:id="@+id/nav_mesas"
-        android:name="com.example.comandaelotrnica.ui.admin.mesas.MesasFragment"
+        android:name="com.example.comandaelotrnica.ui.mesas.MesasFragment"
         android:label="@string/menu_mesas"
         tools:layout="@layout/fragment_mesas" />
     <fragment
         android:id="@+id/nav_categoria"
-        android:name="com.example.comandaelotrnica.ui.admin.categoria.CategoriaFragment"
+        android:name="com.example.comandaelotrnica.ui.categoria.CategoriaFragment"
         android:label="@string/menu_categoria"
         tools:layout="@layout/fragment_categoria"/>
 

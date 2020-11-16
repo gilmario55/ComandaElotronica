@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -17,6 +18,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.comandaelotrnica.fragment.ListCardapioFragment;
 import com.example.comandaelotrnica.helper.UsuarioFirebase;
+import com.example.comandaelotrnica.ui.home.HomeFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -102,7 +104,11 @@ public class AdminActivity extends AppCompatActivity {
                 value.put("status","offline");
                 reference.child("usuarios").child(idUser).updateChildren(value);
                 autenticacao.signOut();
+                Intent intent  = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 finish();
+
                 break;
             case R.id.menu_configuracoes:
                 abrirConfig();

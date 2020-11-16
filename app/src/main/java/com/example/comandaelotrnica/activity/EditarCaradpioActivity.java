@@ -24,9 +24,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.annotation.GlideModule;
 import com.example.comandaelotrnica.R;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
-import com.example.comandaelotrnica.config.GlideApp;
 import com.example.comandaelotrnica.helper.Permissao;
 import com.example.comandaelotrnica.helper.ToastConfig;
 import com.example.comandaelotrnica.helper.UsuarioFirebase;
@@ -161,11 +162,11 @@ public class EditarCaradpioActivity extends AppCompatActivity {
         if (bundle != null && (bundle.containsKey("item"))){
              cardapio = (ItemCardapio) bundle.getSerializable("item");
              nomeItem.setText(cardapio.getNome());
-             precoItem.setText(Double.toString(cardapio.getPreco()));
+             precoItem.setText(String.valueOf(cardapio.getPreco()));
              if (cardapio.getFoto() != null){
                    Uri uri = Uri.parse(cardapio.getFoto());
                  //Glide.with(EditarCaradpioActivity.this).load(uri).into(imageViewCardapio);
-                 GlideApp.with(this)
+                 Glide.with(this)
                          .load(uri)
                          .into(imageViewCardapio);
              }else {
@@ -225,7 +226,7 @@ public class EditarCaradpioActivity extends AppCompatActivity {
                                             ItemCardapio item = new ItemCardapio();
                                             item.setIdEmpresa(idUsuario);
                                             item.setNome(nomeItem.getText().toString());
-                                            item.setPreco(Double.valueOf(precoItem.getText().toString()));
+                                            item.setPreco(Double.parseDouble(String.valueOf(precoItem.getText())));
                                             item.setNome(nomeItem.getText().toString());
                                             item.setCategoria(categoriaEscolhida);
                                             item.setDescricao(descricacao);
@@ -247,8 +248,7 @@ public class EditarCaradpioActivity extends AppCompatActivity {
                 if (validarCampos()){
                     ItemCardapio item = new ItemCardapio();
                     item.setIdEmpresa(idUsuario);
-                    item.setNome(nomeItem.getText().toString());
-                    item.setPreco(Double.valueOf(precoItem.getText().toString()));
+                    item.setPreco(Double.parseDouble(precoItem.getText().toString()));
                     item.setNome(nomeItem.getText().toString());
                     item.setCategoria(categoriaEscolhida);
                     item.setDescricao(descricacao);
@@ -268,7 +268,9 @@ public class EditarCaradpioActivity extends AppCompatActivity {
 
     public void recuperarCategoria(){
 
-        reference = reference.child("categoriaCardapio");
+        reference = reference
+                .child("categoriaCardapio")
+                .child(idUsuario);
         listener = reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -20,6 +20,7 @@ import com.example.comandaelotrnica.R;
 import com.example.comandaelotrnica.adapter.AdapterCardapio;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
 import com.example.comandaelotrnica.helper.Base64Custom;
+import com.example.comandaelotrnica.helper.DateUtil;
 import com.example.comandaelotrnica.listener.RecyclerItemClickListener;
 import com.example.comandaelotrnica.model.Comanda;
 import com.example.comandaelotrnica.model.ItemCardapio;
@@ -153,6 +154,7 @@ public class CardapioClienteFragment extends Fragment {
                     cardapio.setCategoria(dataSnapshot.getKey());
 
                     list.add(cardapio);
+
                 }
                 adapterCardapio.notifyDataSetChanged();
             }
@@ -181,22 +183,26 @@ public class CardapioClienteFragment extends Fragment {
                 ItemCardapio cardapio = list.get(position);
                 ItemComanda item = new ItemComanda();
                  if (!verificaItem(carrinho, cardapio, Integer.parseInt(quantidade))){
+                     double precoT = cardapio.getPreco() * Integer.parseInt(quantidade);
                      item.setIdCardapio(cardapio.getIdItemCardapio());
                      item.setNomeItem(cardapio.getNome());
-                     item.setPreco(cardapio.getPreco());
+                     item.setPrecoTotal(precoT);
+                     item.setPrecoUnitario(cardapio.getPreco());
                      item.setQuantidade(Integer.parseInt(quantidade));
                      item.setStatusItem("A ser preparado");
                      if(carrinho == null)
                          carrinho = new ArrayList<>();
                      carrinho.add(item);
                  }
-
+                 String data = "";
                 if (comandaRecuperada == null){
                     comandaRecuperada = new Comanda(idUsuario,cardapio.getIdEmpresa());
+                     data = DateUtil.dataAtual();
                 }
                 comandaRecuperada.setIdUsuario(idUsuario);
                 comandaRecuperada.setIdEmpresa(cardapio.getIdEmpresa());
                 comandaRecuperada.setItens(carrinho);
+                comandaRecuperada.setDataComanda(data);
                 comandaRecuperada.setNomeUsuario(usuario.getNome());
                 comandaRecuperada.setNumeroMesa(usuario.getNumeroMesa());
                 comandaService.salvar(comandaRecuperada);
@@ -296,8 +302,8 @@ public class CardapioClienteFragment extends Fragment {
                     int q = carrinho.get(i).getQuantidade();
                     q += qtd;
                     carrinho.get(i).setQuantidade(q);
-                    double preco = carrinho.get(i).getPreco() * q;
-                    carrinho.get(i).setPreco(preco);
+                    double preco = (item.getPreco() * q);
+                    carrinho.get(i).setPrecoTotal(preco);
                     return true;
                 }
             }

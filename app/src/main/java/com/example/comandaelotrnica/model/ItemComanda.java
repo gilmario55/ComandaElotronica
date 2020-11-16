@@ -6,7 +6,8 @@ public class ItemComanda {
     private String nomeItem;
     private String statusItem;
     private int quantidade;
-    private double preco;
+    private double precoTotal;
+    private double precoUnitario;
 
     public ItemComanda() {
     }
@@ -43,11 +44,19 @@ public class ItemComanda {
         this.quantidade = quantidade;
     }
 
-    public double getPreco() {
-        return preco;
+    public double getPrecoTotal() {
+        return precoTotal;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
+    public void setPrecoTotal(double preco) {
+        this.precoTotal = preco;
+    }
+
+    public double getPrecoUnitario() {
+        return precoUnitario;
+    }
+
+    public void setPrecoUnitario(double precoUnitario) {
+        this.precoUnitario = precoUnitario;
     }
 }

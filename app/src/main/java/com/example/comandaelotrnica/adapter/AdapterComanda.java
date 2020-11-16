@@ -54,7 +54,7 @@ implements View.OnClickListener {
         DecimalFormat df = new DecimalFormat("0.00");
            holder.nome.setText(item.getNomeItem());
            holder.quantidade.setText("Quantidade: " + item.getQuantidade());
-           holder.preco.setText("R$ " + df.format(item.getPreco()));
+           holder.preco.setText("R$ " + df.format(item.getPrecoTotal()));
            holder.status.setText(item.getStatusItem());
 
            holder.imagecancelar.setOnClickListener(new View.OnClickListener() {
