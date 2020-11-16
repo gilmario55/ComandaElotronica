@@ -91,39 +91,11 @@ public class CardapioClienteFragment extends Fragment {
         recuperarUsuario();
         eventoRecycler();
 
-        swipe();
         return view;
     }
 
 
 
-
-
-    public void swipe(){
-        ItemTouchHelper.Callback itemTouch = new ItemTouchHelper.Callback() {
-            @Override
-            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-                int dragFlags = ItemTouchHelper.ACTION_STATE_IDLE;
-                int swipeFlags = ItemTouchHelper.START|ItemTouchHelper.END;
-                return makeMovementFlags(dragFlags,swipeFlags);
-            }
-
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-                ItemCardapio cardapio = list.get(position);
-                cardapioService.excluirItem(cardapio,cardapioRef,adapterCardapio,getActivity(),
-                        storageReference,position,getLayoutInflater());
-
-            }
-        };
-        new ItemTouchHelper(itemTouch).attachToRecyclerView(recyclerView);
-    }
 
     @Override
     public void onStart() {
@@ -194,15 +166,14 @@ public class CardapioClienteFragment extends Fragment {
                          carrinho = new ArrayList<>();
                      carrinho.add(item);
                  }
-                 String data = "";
                 if (comandaRecuperada == null){
                     comandaRecuperada = new Comanda(idUsuario,cardapio.getIdEmpresa());
-                     data = DateUtil.dataAtual();
+                    String data = DateUtil.dataAtual();
+                    comandaRecuperada.setDataComanda(data);
                 }
                 comandaRecuperada.setIdUsuario(idUsuario);
                 comandaRecuperada.setIdEmpresa(cardapio.getIdEmpresa());
                 comandaRecuperada.setItens(carrinho);
-                comandaRecuperada.setDataComanda(data);
                 comandaRecuperada.setNomeUsuario(usuario.getNome());
                 comandaRecuperada.setNumeroMesa(usuario.getNumeroMesa());
                 comandaService.salvar(comandaRecuperada);

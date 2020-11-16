@@ -17,6 +17,7 @@
     <string name="menu_exit">Sair</string>
     <string name="menu_perfil">Configurações</string>
     <string name="menu_categoria">Categorias Cardápio</string>
+    <string name="menu_comanda">Comanda</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

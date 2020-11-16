@@ -24,6 +24,10 @@
             android:id="@+id/nav_categoria"
             android:icon="@drawable/ic_categoria_cardapio_24"
             android:title="@string/menu_categoria"/>
+        <item
+            android:id="@+id/nav_comanda"
+            android:icon="@drawable/ic_categoria_cardapio_24"
+            android:title="@string/menu_comanda"/>
 
 
     </group>

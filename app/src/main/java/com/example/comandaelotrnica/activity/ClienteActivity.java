@@ -77,10 +77,10 @@ public class ClienteActivity extends AppCompatActivity {
 
 //                textViewNome.setText(usuario.getNome());
 
-                if (usuario.getIdEmpresa().equals("desativado")){
-                    recuperarEmpresas();
+                    if (usuario.getIdEmpresa().equals("desativado")){
+                        recuperarEmpresas();
 
-                }
+                    }
 
             }
         });
@@ -214,7 +214,7 @@ public class ClienteActivity extends AppCompatActivity {
                             public void onItemClick(View view, int position) {
                                 final Usuario empresa = empresaList.get(position);
                                 HashMap<String,Object> value = new HashMap<>();
-                                value.put("idEmpresa",empresa.getIdUsuario());
+                                value.put("idEmpresa",empresa.getIdEmpresa());
                                 value.put("status","online");
                                 DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
                                 String idUser = UsuarioFirebase.getIdentificacaoUsuario();
@@ -224,6 +224,7 @@ public class ClienteActivity extends AppCompatActivity {
                                         Intent i = new Intent(ClienteActivity.this, ComandaActivity.class);
                                         i.putExtra("empresa",empresa);
                                         startActivity(i);
+                                        finish();
                                     }
                                 });
 

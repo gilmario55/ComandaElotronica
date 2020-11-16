@@ -1,12 +1,14 @@
 package com.example.comandaelotrnica.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.comandaelotrnica.R;
+import com.example.comandaelotrnica.activity.ComandaEmpresaActivity;
 import com.example.comandaelotrnica.model.Usuario;
 
 import java.util.List;
@@ -40,7 +43,7 @@ public class AdapterCliente extends RecyclerView.Adapter<AdapterCliente.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
         Usuario user = clientes.get(position);
         holder.nome.setText("Nome: " + user.getNome());
@@ -56,6 +59,16 @@ public class AdapterCliente extends RecyclerView.Adapter<AdapterCliente.MyViewHo
             Glide.with(context).load(uri).into(holder.imagePerfil);
         }
 
+        holder.comanda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Usuario cliente = clientes.get(position);
+                Intent i = new Intent(context, ComandaEmpresaActivity.class);
+                i.putExtra("cliente",cliente);
+                context.startActivity(i);
+            }
+        });
+
 
     }
 
@@ -67,8 +80,8 @@ public class AdapterCliente extends RecyclerView.Adapter<AdapterCliente.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView nome, email, dataCad ,status;
-        CircleImageView imagePerfil, imageEditar, imageExcluir;
-        Button comandda;
+        CircleImageView imagePerfil;
+        ImageView comanda;
 
 
 
@@ -80,6 +93,7 @@ public class AdapterCliente extends RecyclerView.Adapter<AdapterCliente.MyViewHo
             imagePerfil = itemView.findViewById(R.id.circleImageCliente);
             dataCad = itemView.findViewById(R.id.textViewDataCliente);
             status = itemView.findViewById(R.id.textViewStatusCliente);
+            comanda = itemView.findViewById(R.id.imageViewComanda);
 
         }
     }

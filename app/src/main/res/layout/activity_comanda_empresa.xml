@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ComandaActivity">
+    tools:context=".activity.ComandaEmpresaActivity">
 
     <include
         android:id="@+id/include"
@@ -23,7 +23,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/anton_regular"
         android:padding="3dp"
-        android:text="Minha Comanda"
+        android:text=" Comanda"
         android:textColor="@color/verde_claro"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,18 +31,18 @@
         app:layout_constraintTop_toBottomOf="@+id/include" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewComanda"
+        android:id="@+id/recyclerViewComandaEmpresa"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutComanda"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutComandaEmpresa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewComandaEmpresa" />
 
     <Button
-        android:id="@+id/buttonFecharComanda"
+        android:id="@+id/buttonFecharComandaEmpresa"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -59,7 +59,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
-        android:id="@+id/linearLayoutComanda"
+        android:id="@+id/linearLayoutComandaEmpresa"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -67,8 +67,7 @@
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
         android:padding="5dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/buttonFecharComanda"
+        app:layout_constraintBottom_toTopOf="@+id/buttonFecharComandaEmpresa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -81,7 +80,7 @@
             android:background="@color/verde_claro" />
 
         <TextView
-            android:id="@+id/textViewNumMesa"
+            android:id="@+id/textViewNumMesaEmpresa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
@@ -90,7 +89,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textViewValorComanda"
+            android:id="@+id/textViewValorComandaEmpresa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
@@ -99,7 +98,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textViewDataComanda"
+            android:id="@+id/textViewDataComandaEmpresa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Data"

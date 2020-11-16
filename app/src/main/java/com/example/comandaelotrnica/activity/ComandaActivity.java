@@ -6,11 +6,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,6 +41,7 @@ import java.util.List;
 public class ComandaActivity extends AppCompatActivity {
 
     private TextView textViewNumMesa, textViewData, textViewValorTotal;
+    private Button buttonFechar;
     private LinearLayout linearLayout;
     private AdapterComanda adapterComanda;
     private List<Comanda> comanda = new ArrayList<>();
@@ -44,7 +49,7 @@ public class ComandaActivity extends AppCompatActivity {
     private List<ItemComanda> itensCarrinho = new ArrayList<>();
     private ComandaService service = new ComandaService();
     private RecyclerView recyclerView;
-    final private DatabaseReference reference = ConfiguracaoFirebase.getFirebaseDatabase();
+    private DatabaseReference reference = ConfiguracaoFirebase.getFirebaseDatabase();
     private ValueEventListener listener;
     private Mesa mesa;
     private Usuario empresa, cliente;
@@ -63,6 +68,7 @@ public class ComandaActivity extends AppCompatActivity {
         textViewNumMesa = findViewById(R.id.textViewNumMesa);
         textViewValorTotal = findViewById(R.id.textViewValorComanda);
         linearLayout= findViewById(R.id.linearLayoutComanda);
+        buttonFechar = findViewById(R.id.buttonFecharComanda);
 
         adapterComanda = new AdapterComanda(ComandaActivity.this,listCarrinho,comanda);
 
@@ -81,6 +87,13 @@ public class ComandaActivity extends AppCompatActivity {
         toolbar.setTitle("Comanda");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        buttonFechar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                comfirmarComanda();
+            }
+        });
 
         recuperarUsuario();
     }
@@ -191,6 +204,47 @@ public class ComandaActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public  void comfirmarComanda(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Selecione um método de pagamento");
+
+        final CharSequence[] formas = new CharSequence[]{
+          "Dinheiro", "Cartão"
+        };
+
+        builder.setSingleChoiceItems(formas, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                metodoPagamento = formas[which].toString();
+            }
+        });
+
+        final EditText editObs = new EditText(this);
+        editObs.setHint("Digite uma observação");
+        builder.setView(editObs);
+        builder.setPositiveButton("Comfirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String obs = editObs.getText().toString();
+                comandaRecuperada.setMetodoPagamento(metodoPagamento);
+                comandaRecuperada.setObs(obs);
+                comandaRecuperada.setStatus("concluida");
+                comandaRecuperada.setTotal(totalCarrinho);
+                service.comfirmar(comandaRecuperada,"aberta");
+                service.remover(comandaRecuperada);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public interface MyCallback {

@@ -21,6 +21,42 @@ public class ComandaService {
 
     }
 
+    public void comfirmar(Comanda comanda, String id){
+
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference pedidoRef = firebaseRef
+                .child("comanda")
+                .child( comanda.getIdEmpresa() )
+                .child(comanda.getIdUsuario())
+                .child(id);
+        pedidoRef.setValue( comanda );
+
+    }
+
+    public void removerComanda(Comanda comanda, String id){
+
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference pedidoRef = firebaseRef
+                .child("comanda")
+                .child( comanda.getIdEmpresa() )
+                .child(comanda.getIdUsuario())
+                .child(id);
+        pedidoRef.removeValue();
+
+    }
+
+
+    public void remover(Comanda comanda){
+
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference pedidoRef = firebaseRef
+                .child("comanda_aberta")
+                .child(comanda.getIdUsuario())
+                .child( comanda.getIdEmpresa() );
+        pedidoRef.removeValue();
+
+    }
+
 
 
 }

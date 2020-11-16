@@ -90,6 +90,7 @@ public class ClienteFragment extends Fragment {
                 list.clear();
                 for (DataSnapshot data : snapshot.getChildren()){
                     Usuario usuario = data.getValue(Usuario.class);
+                    usuario.setIdUsuario(data.getKey());
                     list.add(usuario);
                 }
                 adapterCliente.notifyDataSetChanged();

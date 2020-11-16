@@ -35,6 +35,11 @@
         android:name="com.example.comandaelotrnica.ui.categoria.CategoriaFragment"
         android:label="@string/menu_categoria"
         tools:layout="@layout/fragment_categoria"/>
+    <fragment
+        android:id="@+id/nav_comanda"
+        android:name="com.example.comandaelotrnica.ui.comanda.ComandaFragment"
+        android:label="@string/menu_comanda"
+        tools:layout="@layout/fragment_comanda"/>
 
 
 </navigation>
