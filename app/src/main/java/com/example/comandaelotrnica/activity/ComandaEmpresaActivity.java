@@ -149,7 +149,7 @@ public class ComandaEmpresaActivity extends AppCompatActivity {
                     DecimalFormat df = new DecimalFormat("0.00");
                     textViewData.setText("Data da Comanda: " + comandaRecuperada.getDataComanda());
                     textViewNumMesa.setText(String.valueOf("Numero da Mesa: " + (comandaRecuperada.getNumeroMesa() + 1)));
-                    textViewValorTotal.setText(String.valueOf("Valor total da comanda: R$ " + comandaRecuperada.getTotal()));
+                    textViewValorTotal.setText(String.valueOf("Valor total da comanda: R$ " + comandaRecuperada.getTotalPreco()));
                 }
             }
 

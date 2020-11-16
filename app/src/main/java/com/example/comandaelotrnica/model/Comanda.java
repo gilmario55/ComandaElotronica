@@ -19,7 +19,7 @@ public class Comanda {
    private String obs;
    private String dataComanda;
     private int numeroMesa;
-    private double total;
+    private double totalPreco;
 
     public Comanda() {
     }
@@ -78,12 +78,12 @@ public class Comanda {
         this.itens = itens;
     }
 
-    public double getTotal() {
-        return total;
+    public double getTotalPreco() {
+        return totalPreco;
     }
 
-    public void setTotal(double total) {
-        this.total = total;
+    public void setTotalPreco(double totalPreco) {
+        this.totalPreco = totalPreco;
     }
 
     public String getStatus() {

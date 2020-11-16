@@ -22,14 +22,12 @@ public class AdapterComandaEmpresa extends RecyclerView.Adapter<AdapterComandaEm
 implements View.OnClickListener {
 
     private Context context;
-    private List<ItemComanda> listCarrinho;
-    private List<Comanda> comanda;
+    private List<Comanda> comandas;
     private View.OnClickListener listener;
 
-    public AdapterComandaEmpresa(Context context, List<ItemComanda> listCarrinho, List<Comanda> comanda){
+    public AdapterComandaEmpresa(Context context, List<Comanda> comandas){
         this.context = context;
-        this.listCarrinho = listCarrinho;
-        this.comanda = comanda;
+        this.comandas = comandas;
 
     }
 
@@ -38,7 +36,7 @@ implements View.OnClickListener {
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View item = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter_comanda,parent,false);
+                .inflate(R.layout.adapter_comanda_empresa,parent,false);
         item.setOnClickListener(this);
 
         return new MyViewHolder(item);
@@ -47,29 +45,19 @@ implements View.OnClickListener {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-       ItemComanda item = listCarrinho.get(position);
         DecimalFormat df = new DecimalFormat("0.00");
-           holder.nome.setText(item.getNomeItem());
-           holder.quantidade.setText("Quantidade: " + item.getQuantidade());
-           holder.preco.setText("R$ " + df.format(item.getPrecoTotal()));
-           holder.status.setText(item.getStatusItem());
-
-           holder.imagecancelar.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   ComandaService service = new ComandaService();
-                   Comanda c = comanda.get(0);
-                   c.getItens().remove(position);
-                   service.salvar(c);
-               }
-           });
-
+        Comanda comanda = comandas.get(position);
+        holder.nomeCliente.setText(comanda.getNomeUsuario());
+        holder.pagamento.setText(comanda.getMetodoPagamento());
+        holder.data.setText(comanda.getDataComanda());
+        holder.mesa.setText(String.valueOf(comanda.getNumeroMesa()));
+//        holder.valorTotal.setText(String.valueOf(comanda.getTotal()));
 
     }
 
     @Override
     public int getItemCount() {
-        return listCarrinho.size();
+        return comandas.size();
     }
 
     public void setOnClickListener(View.OnClickListener listener){
@@ -84,17 +72,18 @@ implements View.OnClickListener {
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView nome, preco, quantidade, status;
-        ImageView imagecancelar;
+
+        private TextView nomeCliente, pagamento, mesa, data, valorTotal;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            nomeCliente = itemView.findViewById(R.id.textViewNomeItemComandaAdapterEmpresa);
+            pagamento = itemView.findViewById(R.id.textViewPagamentoComandaAdapterEmpresa);
+            mesa = itemView.findViewById(R.id.textViewMesaComandaAdapterEmpresa);
+            data = itemView.findViewById(R.id.textViewDataComandaAdapterEmpresa);
+            valorTotal = itemView.findViewById(R.id.textViewValorComandaEmpresa);
 
-            nome = itemView.findViewById(R.id.textViewNomeItemComanda);
-            preco = itemView.findViewById(R.id.textViewPrecoComanda);
-            quantidade = itemView.findViewById(R.id.textViewQtdComanda);
-            status = itemView.findViewById(R.id.textViewPreparoComanda);
-            imagecancelar = itemView.findViewById(R.id.imageViewExcluirItem);
+
         }
 
 

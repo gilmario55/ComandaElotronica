@@ -86,7 +86,7 @@ public class ComandaActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbarPersonalizada);
         toolbar.setTitle("Comanda");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         buttonFechar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,10 +214,11 @@ public class ComandaActivity extends AppCompatActivity {
           "Dinheiro", "Cartão"
         };
 
-        builder.setSingleChoiceItems(formas, 0, new DialogInterface.OnClickListener() {
+        builder.setSingleChoiceItems(formas, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                metodoPagamento = formas[which].toString();
+                metodoPagamento = (String) formas[which];
+
             }
         });
 
@@ -231,7 +232,7 @@ public class ComandaActivity extends AppCompatActivity {
                 comandaRecuperada.setMetodoPagamento(metodoPagamento);
                 comandaRecuperada.setObs(obs);
                 comandaRecuperada.setStatus("concluida");
-                comandaRecuperada.setTotal(totalCarrinho);
+                comandaRecuperada.setTotalPreco(totalCarrinho);
                 service.comfirmar(comandaRecuperada,"aberta");
                 service.remover(comandaRecuperada);
             }

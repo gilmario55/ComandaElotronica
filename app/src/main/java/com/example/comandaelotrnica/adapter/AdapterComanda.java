@@ -1,7 +1,6 @@
 package com.example.comandaelotrnica.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comandaelotrnica.R;
-import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
 import com.example.comandaelotrnica.model.Comanda;
 import com.example.comandaelotrnica.model.ItemComanda;
 import com.example.comandaelotrnica.service.ComandaService;
-import com.google.firebase.database.DatabaseReference;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -95,7 +92,7 @@ implements View.OnClickListener {
 
             nome = itemView.findViewById(R.id.textViewNomeItemComanda);
             preco = itemView.findViewById(R.id.textViewPrecoComanda);
-            quantidade = itemView.findViewById(R.id.textViewQtdComanda);
+            quantidade = itemView.findViewById(R.id.textViewPagamentoComanda);
             status = itemView.findViewById(R.id.textViewPreparoComanda);
             imagecancelar = itemView.findViewById(R.id.imageViewExcluirItem);
         }
