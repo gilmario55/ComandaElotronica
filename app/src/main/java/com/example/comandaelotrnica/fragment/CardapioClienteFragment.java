@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.comandaelotrnica.R;
 import com.example.comandaelotrnica.adapter.AdapterCardapio;
@@ -222,8 +223,41 @@ public class CardapioClienteFragment extends Fragment {
                         recyclerView,
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
-                            public void onItemClick(View view, int position) {
-                                comfirmarQuantidade(position);
+                            public void onItemClick(View view, final int position) {
+
+                                DatabaseReference reference = cardapioRef
+                                        .child("comanda")
+                                        .child(list.get(position).getIdEmpresa())
+                                        .child(idUsuario)
+                                        .child("aberta");
+                                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (snapshot.getValue()  != null){
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                            builder.setMessage("Você tem uma comanda em aberto esperando pelo seu pagamento," +
+                                                    "por favor va até o caixa e efetue o pagamento. Agradecemos a sua atenção!");
+
+                                            builder.setPositiveButton("confirmar", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Toast.makeText(getActivity(),"Obrigado por sua compreensão!",Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+                                            builder.setCancelable(false);
+                                            AlertDialog dialog = builder.create();
+                                            dialog.show();
+
+                                        }else {
+                                            comfirmarQuantidade(position);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                             }
 
                             @Override

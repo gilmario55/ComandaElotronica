@@ -83,17 +83,39 @@ public class ClienteFragment extends Fragment {
     }
 
     public void recuperarUsuarios(){
-        Query query = databaseReference.child("usuarios").orderByChild("dataCadastro");
+        final Query query = databaseReference
+                .child("usuarios");
         listener = query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
-                for (DataSnapshot data : snapshot.getChildren()){
-                    Usuario usuario = data.getValue(Usuario.class);
-                    usuario.setIdUsuario(data.getKey());
-                    list.add(usuario);
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    final Query query = databaseReference
+                            .child("usuarios")
+                            .child(data.getKey());
+
+                    listener = query.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            if (snapshot.getValue() != null) {
+                                Usuario usuario = snapshot.getValue(Usuario.class);
+                                if (usuario.getStatus().equals("online") && usuario.getTipoUsuario().equals("cliente")){
+                                usuario.setIdUsuario(snapshot.getKey());
+                                list.add(usuario);}
+                                adapterCliente.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
-                adapterCliente.notifyDataSetChanged();
+
             }
 
             @Override

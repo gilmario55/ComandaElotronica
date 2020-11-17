@@ -225,16 +225,19 @@ public class ComandaActivity extends AppCompatActivity {
         final EditText editObs = new EditText(this);
         editObs.setHint("Digite uma observação");
         builder.setView(editObs);
-        builder.setPositiveButton("Comfirmar", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String obs = editObs.getText().toString();
                 comandaRecuperada.setMetodoPagamento(metodoPagamento);
                 comandaRecuperada.setObs(obs);
-                comandaRecuperada.setStatus("concluida");
+                comandaRecuperada.setStatus("finalizada");
                 comandaRecuperada.setTotalPreco(totalCarrinho);
                 service.comfirmar(comandaRecuperada,"aberta");
                 service.remover(comandaRecuperada);
+                listCarrinho.clear();
+                linearLayout.setVisibility(View.GONE);
+                adapterComanda.notifyDataSetChanged();
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

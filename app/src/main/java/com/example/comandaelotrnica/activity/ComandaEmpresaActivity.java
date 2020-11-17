@@ -150,6 +150,8 @@ public class ComandaEmpresaActivity extends AppCompatActivity {
                     textViewData.setText("Data da Comanda: " + comandaRecuperada.getDataComanda());
                     textViewNumMesa.setText(String.valueOf("Numero da Mesa: " + (comandaRecuperada.getNumeroMesa() + 1)));
                     textViewValorTotal.setText(String.valueOf("Valor total da comanda: R$ " + comandaRecuperada.getTotalPreco()));
+
+                    buttonFechar.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -170,5 +172,6 @@ public class ComandaEmpresaActivity extends AppCompatActivity {
         comandaRecuperada.setIdComanda( null);
         service.comfirmar(comandaRecuperada,cod);
         service.removerComanda(comandaRecuperada,"aberta");
+        adapter.notifyDataSetChanged();
     }
 }

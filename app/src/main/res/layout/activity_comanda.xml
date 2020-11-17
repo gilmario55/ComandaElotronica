@@ -41,34 +41,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewComandaEmpresa" />
 
-    <Button
-        android:id="@+id/buttonFecharComanda"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/botao_customizado_verde"
-        android:backgroundTint="@color/botao_cor"
-        android:text="Fechar Comanda"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <LinearLayout
         android:id="@+id/linearLayoutComanda"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:orientation="vertical"
         android:padding="5dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/buttonFecharComanda"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -104,6 +87,19 @@
             android:layout_height="wrap_content"
             android:text="Data"
             android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonFecharComanda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/botao_customizado_verde"
+            android:backgroundTint="@color/botao_cor"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="2dp"
+            android:text="Fechar Comanda"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
     </LinearLayout>

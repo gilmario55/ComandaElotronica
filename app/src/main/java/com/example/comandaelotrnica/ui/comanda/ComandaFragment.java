@@ -84,30 +84,33 @@ public class ComandaFragment extends Fragment {
                 if (snapshot.getValue() != null){
                     listComanda.clear();
                     for (DataSnapshot data : snapshot.getChildren()){
-                        DatabaseReference comandaRef = reference
-                                .child("comanda")
-                                .child(idUser)
-                                .child(data.getKey());
-                        listener = comandaRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.getValue() != null){
-                                    for (DataSnapshot data : snapshot.getChildren()){
+                        System.out.println("Key: " + data.getKey());
+                            DatabaseReference comandaRef = reference
+                                    .child("comanda")
+                                    .child(idUser)
+                                    .child(data.getKey());
+                            listener = comandaRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.getValue() != null){
+                                        for (DataSnapshot data : snapshot.getChildren()){
 
-                                        Comanda comanda = data.getValue(Comanda.class);
-                                        listComanda.add(comanda);
+                                            if ( !data.getKey().equals("aberta")){
+                                                Comanda comanda = data.getValue(Comanda.class);
+                                                listComanda.add(comanda);
+                                            }
+                                        }
+
+                                        adapter.notifyDataSetChanged();
                                     }
-
-                                    adapter.notifyDataSetChanged();
                                 }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
-                    }
+                                }
+                            });
+                        }
 
                     }
             }

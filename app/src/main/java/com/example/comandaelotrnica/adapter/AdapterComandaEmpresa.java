@@ -47,11 +47,11 @@ implements View.OnClickListener {
 
         DecimalFormat df = new DecimalFormat("0.00");
         Comanda comanda = comandas.get(position);
-        holder.nomeCliente.setText(comanda.getNomeUsuario());
-        holder.pagamento.setText(comanda.getMetodoPagamento());
-        holder.data.setText(comanda.getDataComanda());
-        holder.mesa.setText(String.valueOf(comanda.getNumeroMesa()));
-//        holder.valorTotal.setText(String.valueOf(comanda.getTotal()));
+        holder.nomeCliente.setText("Nome:" + comanda.getNomeUsuario());
+        holder.pagamento.setText("Forma de pagamento: " + comanda.getMetodoPagamento());
+        holder.data.setText("Data do atendimento:  " + comanda.getDataComanda() );
+        holder.mesa.setText("Mesa: " + String.valueOf(comanda.getNumeroMesa() + 1));
+        holder.valorTotal.setText( df.format(comanda.getTotalPreco()));
 
     }
 
@@ -81,7 +81,7 @@ implements View.OnClickListener {
             pagamento = itemView.findViewById(R.id.textViewPagamentoComandaAdapterEmpresa);
             mesa = itemView.findViewById(R.id.textViewMesaComandaAdapterEmpresa);
             data = itemView.findViewById(R.id.textViewDataComandaAdapterEmpresa);
-            valorTotal = itemView.findViewById(R.id.textViewValorComandaEmpresa);
+            valorTotal = itemView.findViewById(R.id.textViewPrecoComandaAdapterEmpresa);
 
 
         }
