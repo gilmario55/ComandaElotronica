@@ -13,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.comandaelotrnica.R;
@@ -36,11 +38,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ClienteActivity extends AppCompatActivity {
     //private SmartTabLayout smartTabLayout;
    // private ViewPager viewPager;
     private String texto;
     private TextView textViewNome;
+    private ImageView image;
+    private Button buttonAbrirComanda;
     private RecyclerView recyclerView;
     private FirebaseAuth auth = ConfiguracaoFirebase.getFirebaseAutenticacao();
     private DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
@@ -59,8 +65,10 @@ public class ClienteActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbarPersonalizada);
         toolbar.setTitle("Home");
         setSupportActionBar(toolbar);
-        // textViewNome = findViewById(R.id.textViewNomeUserCliente);
+         textViewNome = findViewById(R.id.textViewNomeUserCliente);
         recyclerView = findViewById(R.id.recyclerHomeCliente);
+        image = findViewById(R.id.imageViewSejaBemVindo);
+        buttonAbrirComanda = findViewById(R.id.buttonAbrirComanda);
 
         // config adpter
         adapterEmpresa = new AdapterUsuario(empresaList,this);
@@ -75,13 +83,25 @@ public class ClienteActivity extends AppCompatActivity {
             @Override
             public void onCallback(Usuario usuario) {
 
-//                textViewNome.setText(usuario.getNome());
+
 
                     if (usuario.getIdEmpresa().equals("vazio")){
+                        textViewNome.setText("Olá " + usuario.getNome() + "!" + "\nSelecione uma empresa para você utilizar seus produtos.");
                         recuperarEmpresas();
 
+                    }else {
+                        textViewNome.setText("Olá " + usuario.getNome() + "!");
                     }
 
+
+
+            }
+        });
+
+        buttonAbrirComanda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abrirDialog();
             }
         });
 
@@ -96,9 +116,11 @@ public class ClienteActivity extends AppCompatActivity {
         recupearUsuario(new HomeFragment.MyCallback() {
             @Override
             public void onCallback(Usuario usuario) {
-                if(!usuario.getIdEmpresa().equals("vazio"))
-                getMenuInflater().inflate(R.menu.cliente, menu);
-                else{
+                if(!usuario.getIdEmpresa().equals("vazio")) {
+                    image.setVisibility(View.VISIBLE);
+                    buttonAbrirComanda.setVisibility(View.VISIBLE);
+                    getMenuInflater().inflate(R.menu.cliente, menu);
+                }else{
                     getMenuInflater().inflate(R.menu.cliente_aux,menu);
                 }
             }
@@ -218,13 +240,12 @@ public class ClienteActivity extends AppCompatActivity {
                                 usuarioRef.child("usuarios").child(idUser).updateChildren(value).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Intent i = new Intent(ClienteActivity.this, ComandaActivity.class);
-                                        i.putExtra("empresa",empresa);
-                                        startActivity(i);
-                                        finish();
+                                       // Intent i = new Intent(ClienteActivity.this, ComandaActivity.class);
+                                       // i.putExtra("empresa",empresa);
+                                       // startActivity(i);
+                                        //finish();
                                     }
                                 });
-
                                // Intent i = new Intent(ClienteActivity.this, ComandaActivity.class);
                                // i.putExtra("empresa",empresa);
                                 //startActivity(i);
