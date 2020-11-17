@@ -122,12 +122,7 @@ public class MainActivity extends AppCompatActivity {
     public void abrirTelaPrincipal(String texto){
 
         if (texto.equals("empresa")) {
-           if(autenticacao.getCurrentUser() != null){
-               HashMap<String,Object> value = new HashMap<>();
-               value.put("status","online");
-               DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
-               usuarioRef.child("usuarios").child(idUsuario).updateChildren(value);
-           }
+           atualizarStatus("online");
             startActivity(new Intent(this, AdminActivity.class));
             finish();
         }else {
@@ -152,6 +147,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void atualizarStatus( String s){
+        if(autenticacao.getCurrentUser() != null){
+            HashMap<String,Object> value = new HashMap<>();
+            value.put("status",s);
+            DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
+            usuarioRef.child("usuarios").child(idUsuario).updateChildren(value);
+        }
     }
 
 }

@@ -22,6 +22,7 @@ import com.example.comandaelotrnica.adapter.AdapterMesa;
 import com.example.comandaelotrnica.adapter.AdapterMesaDialog;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
 import com.example.comandaelotrnica.model.Mesa;
+import com.example.comandaelotrnica.model.Usuario;
 import com.example.comandaelotrnica.service.MesaService;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -105,7 +106,9 @@ public class MesaCustomDialog extends DialogFragment implements AdapterMesaDialo
     }
 
     public void recuperarMesas(){
-        Query query = referenceMesa.child("mesa").orderByChild("status").equalTo("livre");
+        Query query = referenceMesa
+                .child("mesa")
+                .orderByChild("status").equalTo("livre");
         listenerMesa = query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

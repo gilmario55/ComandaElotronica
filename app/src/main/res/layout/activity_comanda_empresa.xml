@@ -23,7 +23,6 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/anton_regular"
         android:padding="3dp"
-        android:text=" Comanda"
         android:textColor="@color/verde_claro"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,33 +40,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewComandaEmpresa" />
 
-    <Button
-        android:id="@+id/buttonFecharComandaEmpresa"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/botao_customizado_verde"
-        android:backgroundTint="@color/botao_cor"
-        android:text="Fechar Comanda"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <LinearLayout
         android:id="@+id/linearLayoutComandaEmpresa"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         android:padding="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonFecharComandaEmpresa"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -103,6 +85,20 @@
             android:layout_height="wrap_content"
             android:text="Data"
             android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonFecharComandaEmpresa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/botao_customizado_verde"
+            android:backgroundTint="@color/botao_cor"
+            android:text="Fechar Comanda"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
     </LinearLayout>

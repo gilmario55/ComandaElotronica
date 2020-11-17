@@ -14,7 +14,7 @@ public class ItemCardapio implements Serializable {
     private String idItemCardapio;
     private String nome;
     private String categoria;
-    private String dataCastrato;
+    private String dataCadastrato;
     private String foto;
     private double preco;
     private String descricao;
@@ -57,11 +57,11 @@ public class ItemCardapio implements Serializable {
     }
 
     public String getDataCastrato() {
-        return dataCastrato;
+        return dataCadastrato;
     }
 
     public void setDataCastrato(String dataCastrato) {
-        this.dataCastrato = dataCastrato;
+        this.dataCadastrato = dataCastrato;
     }
 
     public String getFoto() {
