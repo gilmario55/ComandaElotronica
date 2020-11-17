@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="2dp"
-        android:text=" Esolha uma empresa para acessar os seus produtos."
+        android:text=" Escolha uma empresa para acessar os seus produtos."
         android:textAlignment="center"
         android:textColor="@android:color/darker_gray"
         android:textSize="18sp"

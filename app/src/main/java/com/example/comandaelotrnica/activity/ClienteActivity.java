@@ -77,7 +77,7 @@ public class ClienteActivity extends AppCompatActivity {
 
 //                textViewNome.setText(usuario.getNome());
 
-                    if (usuario.getIdEmpresa().equals("desativado")){
+                    if (usuario.getIdEmpresa().equals("vazio")){
                         recuperarEmpresas();
 
                     }
