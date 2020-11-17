@@ -77,7 +77,7 @@ public class ClienteActivity extends AppCompatActivity {
 
 //                textViewNome.setText(usuario.getNome());
 
-                    if (usuario.getIdEmpresa().equals("desativado")){
+                    if (usuario.getIdEmpresa().equals("vazio")){
                         recuperarEmpresas();
 
                     }
@@ -110,10 +110,7 @@ public class ClienteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_sair:
-                String idUser = UsuarioFirebase.getIdentificacaoUsuario();
-                HashMap<String,Object> value = new HashMap<>();
-                value.put("status","offline");
-                usuarioRef.child("usuarios").child(idUser).updateChildren(value);
+                atualizarStatus("offline");
                 auth.signOut();
                 finish();
                 break;
@@ -250,4 +247,12 @@ public class ClienteActivity extends AppCompatActivity {
 
     }
 
+    private void atualizarStatus( String s) {
+        if (auth.getCurrentUser() != null) {
+            HashMap<String, Object> value = new HashMap<>();
+            value.put("status", s);
+            DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
+            usuarioRef.child("usuarios").child(UsuarioFirebase.getIdentificacaoUsuario()).updateChildren(value);
+        }
+    }
 }

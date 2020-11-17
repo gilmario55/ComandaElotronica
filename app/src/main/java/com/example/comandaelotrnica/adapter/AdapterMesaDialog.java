@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comandaelotrnica.R;
 import com.example.comandaelotrnica.model.Mesa;
+import com.example.comandaelotrnica.model.Usuario;
 
 import java.util.List;
 
