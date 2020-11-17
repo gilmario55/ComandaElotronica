@@ -44,6 +44,7 @@ public class ClienteActivity extends AppCompatActivity {
     //private SmartTabLayout smartTabLayout;
    // private ViewPager viewPager;
     private String texto;
+    private String idUser = UsuarioFirebase.getIdentificacaoUsuario()   ;
     private TextView textViewNome;
     private ImageView image;
     private Button buttonAbrirComanda;
@@ -134,6 +135,7 @@ public class ClienteActivity extends AppCompatActivity {
             case R.id.action_sair:
                 atualizarStatus("offline");
                 auth.signOut();
+                startActivity(new Intent(this, MainActivity.class));
                 finish();
                 break;
             case R.id.action_cardapio:
@@ -184,9 +186,7 @@ public class ClienteActivity extends AppCompatActivity {
     }
 
     public void recupearUsuario(final HomeFragment.MyCallback myCallback) {
-        String emailUser;
-            emailUser = auth.getCurrentUser().getEmail();
-        final String idUser = Base64Custom.codificarBase64(emailUser);
+
         Query query = usuarioRef.child("usuarios").child(idUser);
         listener = query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -272,6 +272,7 @@ public class ClienteActivity extends AppCompatActivity {
         if (auth.getCurrentUser() != null) {
             HashMap<String, Object> value = new HashMap<>();
             value.put("status", s);
+            value.put("idEmpresa","vazio");
             DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
             usuarioRef.child("usuarios").child(UsuarioFirebase.getIdentificacaoUsuario()).updateChildren(value);
         }
