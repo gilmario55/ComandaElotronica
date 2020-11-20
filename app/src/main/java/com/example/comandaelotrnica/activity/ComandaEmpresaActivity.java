@@ -6,9 +6,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.comandaelotrnica.R;
@@ -35,6 +38,7 @@ public class ComandaEmpresaActivity extends AppCompatActivity {
 
     private TextView textViewNumMesa, textViewData, textViewValorTotal, textViewTitulo;
     private Button buttonFechar;
+    private LinearLayout linearLayout;
     private List<Comanda> comanda = new ArrayList<>();
     private List<ItemComanda> listCarrinho = new ArrayList<>();
     private List<ItemComanda> itensCarrinho = new ArrayList<>();
@@ -57,6 +61,8 @@ public class ComandaEmpresaActivity extends AppCompatActivity {
         textViewValorTotal = findViewById(R.id.textViewValorComandaEmpresa);
         textViewTitulo = findViewById(R.id.textViewComandaEmpresa);
         buttonFechar = findViewById(R.id.buttonFecharComandaEmpresa);
+        linearLayout = findViewById(R.id.linearLayoutComandaEmpresa);
+
         adapter = new AdapterComanda(this,listCarrinho,comanda);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ComandaEmpresaActivity.this);
@@ -136,6 +142,8 @@ public class ComandaEmpresaActivity extends AppCompatActivity {
                     itensCarrinho = comandaRecuperada.getItens();
                     comanda.add(comandaRecuperada);
                     if (itensCarrinho != null){
+                            linearLayout.setVisibility(View.VISIBLE);
+                            buttonFechar.setVisibility(View.VISIBLE);
                         for(ItemComanda itemPedido: itensCarrinho){
 
                             listCarrinho.add(itemPedido);
@@ -145,13 +153,13 @@ public class ComandaEmpresaActivity extends AppCompatActivity {
 
                     }else {
                         adapter.notifyDataSetChanged();
+
                     }
                     DecimalFormat df = new DecimalFormat("0.00");
                     textViewData.setText("Data da Comanda: " + comandaRecuperada.getDataComanda());
                     textViewNumMesa.setText(String.valueOf("Numero da Mesa: " + (comandaRecuperada.getNumeroMesa() + 1)));
                     textViewValorTotal.setText(String.valueOf("Valor total da comanda: R$ " + comandaRecuperada.getTotalPreco()));
 
-                    buttonFechar.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -163,15 +171,13 @@ public class ComandaEmpresaActivity extends AppCompatActivity {
     }
 
 
-    public void fecharComanda(){
-
-    }
 
     private void comfirmarComanda() {
         String cod = comandaRecuperada.getIdComanda();
         comandaRecuperada.setIdComanda( null);
         service.comfirmar(comandaRecuperada,cod);
         service.removerComanda(comandaRecuperada,"aberta");
-        adapter.notifyDataSetChanged();
+        listCarrinho.clear();
+        startActivity( new Intent(this, AdminActivity.class));
     }
 }

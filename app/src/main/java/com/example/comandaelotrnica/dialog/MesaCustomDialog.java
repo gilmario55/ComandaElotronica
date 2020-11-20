@@ -21,9 +21,11 @@ import com.example.comandaelotrnica.activity.ComandaActivity;
 import com.example.comandaelotrnica.adapter.AdapterMesa;
 import com.example.comandaelotrnica.adapter.AdapterMesaDialog;
 import com.example.comandaelotrnica.config.ConfiguracaoFirebase;
+import com.example.comandaelotrnica.helper.UsuarioFirebase;
 import com.example.comandaelotrnica.model.Mesa;
 import com.example.comandaelotrnica.model.Usuario;
 import com.example.comandaelotrnica.service.MesaService;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,10 +41,21 @@ public class MesaCustomDialog extends DialogFragment implements AdapterMesaDialo
     private static final String TAG = "MesaCustomDialog";
 
     @Override
-    public void itemClick(Mesa mesa) {
-        Intent intent = new Intent(getContext(), ComandaActivity.class);
-        intent.putExtra("mesa",mesa);
-        startActivity(intent);
+    public void itemClick( final Mesa mesa) {
+
+        HashMap<String,Object> value = new HashMap<>();
+        String idUser = UsuarioFirebase.getIdentificacaoUsuario();
+        value.put("idMesa",mesa.getNumeroMesa());
+        DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        usuarioRef.child("usuarios").child(idUser).updateChildren(value).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Intent intent = new Intent(getContext(), ComandaActivity.class);
+                intent.putExtra("mesa",mesa);
+                startActivity(intent);
+            }
+        });
+
     }
 
     public interface OnInputListener{
@@ -106,19 +119,39 @@ public class MesaCustomDialog extends DialogFragment implements AdapterMesaDialo
     }
 
     public void recuperarMesas(){
-        Query query = referenceMesa
-                .child("mesa")
-                .orderByChild("status").equalTo("livre");
-        listenerMesa = query.addValueEventListener(new ValueEventListener() {
+
+       final String id = UsuarioFirebase.getIdentificacaoUsuario();
+        DatabaseReference database = referenceMesa
+                .child("usuarios")
+                .child(id);
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                list.clear();
-                for (DataSnapshot dados : snapshot.getChildren()){
-                    Mesa mesa = dados.getValue(Mesa.class);
-                    mesa.setIdMesa(dados.getKey());
-                    list.add(mesa);
-                }
-                adapterMesaDialog.notifyDataSetChanged();
+              if (snapshot.getValue() != null){
+                  final Usuario usuario = snapshot.getValue(Usuario.class);
+                  Query query = referenceMesa
+                          .child("mesa")
+                          .child(usuario.getIdEmpresa())
+                          .orderByChild("status").equalTo("livre");
+                  listenerMesa = query.addValueEventListener(new ValueEventListener() {
+                      @Override
+                      public void onDataChange(@NonNull DataSnapshot snapshot) {
+                          list.clear();
+                          for (DataSnapshot dados : snapshot.getChildren()){
+                              Mesa mesa = dados.getValue(Mesa.class);
+                              mesa.setIdMesa(dados.getKey());
+                              mesa.setIdEmpresa(usuario.getIdEmpresa());
+                              list.add(mesa);
+                          }
+                          adapterMesaDialog.notifyDataSetChanged();
+                      }
+
+                      @Override
+                      public void onCancelled(@NonNull DatabaseError error) {
+
+                      }
+                  });
+              }
             }
 
             @Override

@@ -79,7 +79,7 @@ public class ComandaActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
-            mesa = (Mesa) bundle.getSerializable("mesa");
+            mesa = (Mesa)  bundle.getSerializable("mesa");
             empresa = (Usuario) bundle.getSerializable("empresa");
         }
 
