@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }else {
             startActivity(new Intent(this, ClienteActivity.class));
+            finish();
         }
     }
 
