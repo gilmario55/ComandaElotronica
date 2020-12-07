@@ -18,8 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ComandaEmpresaActivity"
-            android:parentActivityName=".activity.AdminActivity"></activity>
+        <activity android:name=".activity.InicioClienteActivity"></activity>
+        <activity
+            android:name=".activity.ComandaEmpresaActivity"
+            android:parentActivityName=".activity.AdminActivity" />
         <activity
             android:name=".activity.ComandaActivity"
             android:parentActivityName=".activity.ClienteActivity" />

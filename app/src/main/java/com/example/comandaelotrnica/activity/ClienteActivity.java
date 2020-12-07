@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,23 +39,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import dmax.dialog.SpotsDialog;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import dmax.dialog.SpotsDialog;
 
 public class ClienteActivity extends AppCompatActivity {
     //private SmartTabLayout smartTabLayout;
    // private ViewPager viewPager;
     private String texto;
-    private String idUser = UsuarioFirebase.getIdentificacaoUsuario()   ;
+    private String idUser;
     private TextView textViewNome;
     private ImageView image;
     private Button buttonAbrirComanda;
-    private RecyclerView recyclerView;
     private FirebaseAuth auth = ConfiguracaoFirebase.getFirebaseAutenticacao();
     private DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
-    private ValueEventListener listener;
     private List<Usuario> empresaList = new ArrayList<>();
-    private AdapterUsuario adapterEmpresa;
-    private Usuario usuario = new Usuario();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,47 +66,71 @@ public class ClienteActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbarPersonalizada);
         toolbar.setTitle("Home");
         setSupportActionBar(toolbar);
-         textViewNome = findViewById(R.id.textViewNomeUserCliente);
-        recyclerView = findViewById(R.id.recyclerHomeCliente);
+        textViewNome = findViewById(R.id.textViewNomeUserCliente);
         image = findViewById(R.id.imageViewSejaBemVindo);
+        if (auth.getCurrentUser() != null){
+            idUser = UsuarioFirebase.getIdentificacaoUsuario()   ;
+        }
+
         buttonAbrirComanda = findViewById(R.id.buttonAbrirComanda);
 
-        // config adpter
-        adapterEmpresa = new AdapterUsuario(empresaList,this);
 
-        // config recycler
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapterEmpresa);
+        if (auth.getCurrentUser() != null){
 
-        recupearUsuario(new HomeFragment.MyCallback() {
-            @Override
-            public void onCallback(Usuario usuario) {
-
-
-
-                    if (usuario.getIdEmpresa().equals("vazio")){
-                        textViewNome.setText("Olá " + usuario.getNome() + "!" + "\nSelecione uma empresa para você utilizar seus produtos.");
-                        recuperarEmpresas();
-
-                    }else {
+            Usuario usuario = new Usuario();
+            recupearUsuario(new MyCallback() {
+                @Override
+                public void onCallback(final Usuario usuario) {
                         textViewNome.setText("Olá " + usuario.getNome() + "!");
-                    }
 
+                    DatabaseReference reference = usuarioRef.child("comanda_aberta")
+                            .child(usuario.getIdUsuario())
+                            .child(usuario.getIdEmpresa());
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.getValue() != null){
+                                DatabaseReference reference = usuarioRef.child("comanda")
+                                        .child(usuario.getIdEmpresa())
+                                        .child(usuario.getIdUsuario())
+                                        .child("aberto");
+                                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (snapshot.getValue() != null){
+                                            buttonAbrirComanda.setVisibility(View.GONE);
+                                        }else {
+                                            buttonAbrirComanda.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    abrirDialog();
+                                                }
+                                            });
+                                        }
 
+                                    }
 
-            }
-        });
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
-        buttonAbrirComanda.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                abrirDialog();
-            }
-        });
+                                    }
+                                });
 
-        abrirRecycler();
+                            }else{
+                                buttonAbrirComanda.setVisibility(View.GONE);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
+            });
+
+        }
 
     }
 
@@ -114,29 +138,19 @@ public class ClienteActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
 
         // Inflate the menu; this adds items to the action bar if it is present.
-        recupearUsuario(new HomeFragment.MyCallback() {
-            @Override
-            public void onCallback(Usuario usuario) {
-                if(!usuario.getIdEmpresa().equals("vazio")) {
-                    image.setVisibility(View.VISIBLE);
-                    buttonAbrirComanda.setVisibility(View.VISIBLE);
-                    getMenuInflater().inflate(R.menu.cliente, menu);
-                }else{
-                    getMenuInflater().inflate(R.menu.cliente_aux,menu);
-                }
-            }
-        });
+        getMenuInflater().inflate(R.menu.cliente,menu);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent;
         switch (item.getItemId()){
             case R.id.action_sair:
                 atualizarStatus("offline");
-                auth.signOut();
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
+               deslogar();
+
                 break;
             case R.id.action_cardapio:
                 abrirCardapio();
@@ -147,8 +161,9 @@ public class ClienteActivity extends AppCompatActivity {
             case R.id.action_comanda:
 
                 //abrirDialog();
-                Intent intent = new Intent(this,ComandaActivity.class);
+                intent = new Intent(this,ComandaActivity.class);
                 startActivity(intent);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -163,35 +178,14 @@ public class ClienteActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void recuperarEmpresas(){
-        Query query = usuarioRef.child("usuarios").orderByChild("tipoUsuario").equalTo("empresa");
-        listener = query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                empresaList.clear();
-                for (DataSnapshot data : snapshot.getChildren()){
-                    Usuario usuario = data.getValue(Usuario.class);
-                    usuario.setIdEmpresa(data.getKey());
-                    empresaList.add(usuario);
-                }
-                adapterEmpresa.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-
-    public void recupearUsuario(final HomeFragment.MyCallback myCallback) {
+    public void recupearUsuario(final MyCallback myCallback) {
 
         Query query = usuarioRef.child("usuarios").child(idUser);
-        listener = query.addValueEventListener(new ValueEventListener() {
+         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
+                usuario.setIdUsuario(dataSnapshot.getKey());
                 myCallback.onCallback(usuario);
             }
 
@@ -213,59 +207,9 @@ public class ClienteActivity extends AppCompatActivity {
         //recuperarEmpresas();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        usuarioRef.removeEventListener(listener);
-    }
 
     public interface MyCallback {
         void onCallback(Usuario usuario);
-    }
-
-    public void abrirRecycler(){
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(
-                        this,
-                        recyclerView,
-                        new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                final Usuario empresa = empresaList.get(position);
-                                HashMap<String,Object> value = new HashMap<>();
-                                value.put("idEmpresa",empresa.getIdEmpresa());
-                                value.put("status","online");
-                                DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
-                                String idUser = UsuarioFirebase.getIdentificacaoUsuario();
-                                usuarioRef.child("usuarios").child(idUser).updateChildren(value).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                       // Intent i = new Intent(ClienteActivity.this, ComandaActivity.class);
-                                       // i.putExtra("empresa",empresa);
-                                       // startActivity(i);
-                                        //finish();
-                                    }
-                                });
-                               // Intent i = new Intent(ClienteActivity.this, ComandaActivity.class);
-                               // i.putExtra("empresa",empresa);
-                                //startActivity(i);
-                            }
-
-                            @Override
-                            public void onLongItemClick(View view, int position) {
-
-                            }
-
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            }
-                        }
-                )
-        );
-
-
-
     }
 
     private void atualizarStatus( String s) {
@@ -274,7 +218,35 @@ public class ClienteActivity extends AppCompatActivity {
             value.put("status", s);
             value.put("idEmpresa","vazio");
             DatabaseReference usuarioRef = ConfiguracaoFirebase.getFirebaseDatabase();
-            usuarioRef.child("usuarios").child(UsuarioFirebase.getIdentificacaoUsuario()).updateChildren(value);
+            usuarioRef.child("usuarios").child(UsuarioFirebase.getIdentificacaoUsuario())
+                    .updateChildren(value).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                }
+            });
         }
     }
+
+
+    public void deslogar(){
+        try {
+            auth.signOut();
+            Intent intent = new Intent(this,MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }
+
+
+
+
+
+
+
+

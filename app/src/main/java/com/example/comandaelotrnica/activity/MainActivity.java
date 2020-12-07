@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText editEmail, editSenha;
     private Button buttonEntrar;
     private Usuario usuario;
-    private FirebaseAuth autenticacao;
+    private FirebaseAuth autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
     private DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
     private String idUsuario;
 
@@ -119,15 +119,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void abrirTelaPrincipal(String texto){
+    public void abrirTelaPrincipal(String texto, String idEmpresa){
 
         if (texto.equals("empresa")) {
            atualizarStatus("online");
             startActivity(new Intent(this, AdminActivity.class));
             finish();
         }else {
-            startActivity(new Intent(this, ClienteActivity.class));
-            finish();
+
+            if (idEmpresa.equals("vazio") && autenticacao.getCurrentUser() != null) {
+                startActivity(new Intent(this, InicioClienteActivity.class));
+                finish();
+            }
+            else if ( autenticacao.getCurrentUser() != null){
+                startActivity(new Intent(this, ClienteActivity.class));
+                finish();
+            }
         }
     }
 
@@ -139,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
                 if(usuario.getTipoUsuario() != null){
-                    abrirTelaPrincipal(usuario.getTipoUsuario());
+                    abrirTelaPrincipal(usuario.getTipoUsuario(), usuario.getIdEmpresa());
                 }
             }
 
@@ -149,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void atualizarStatus( String s){
         if(autenticacao.getCurrentUser() != null){
